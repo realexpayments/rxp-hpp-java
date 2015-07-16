@@ -10,6 +10,8 @@ import com.realexpayments.hpp.sdk.domain.HppRequest.Flag;
 import com.realexpayments.hpp.sdk.domain.HppResponse;
 
 /**
+ * Class containing sample JSON data and methods to check test data matches expected values.
+ * 
  * @author markstanford
  *
  */
@@ -84,6 +86,11 @@ public class SampleJsonData {
 	public static final String UNKNOWN_FOUR_VALUE = "Unknown value 4";
 	public static final Map<String, String> SUPPLEMENTARY_DATA = generateSupplementaryData();
 
+	/**
+	 * Generates map of TSS data.
+	 * 
+	 * @return Map<String, String>
+	 */
 	public static Map<String, String> generateTssResult() {
 		Map<String, String> tss = new HashMap<String, String>();
 
@@ -93,6 +100,11 @@ public class SampleJsonData {
 		return tss;
 	}
 
+	/**
+	 * Generate map of supplementary data.
+	 * 
+	 * @return Map<String, String>
+	 */
 	public static Map<String, String> generateSupplementaryData() {
 		Map<String, String> data = new HashMap<String, String>();
 
@@ -104,6 +116,11 @@ public class SampleJsonData {
 		return data;
 	}
 
+	/**
+	 * Generates {@link HppRequest} object.
+	 * 
+	 * @return HppRequest
+	 */
 	public static HppRequest generateValidHppRequest() {
 		HppRequest hppRequest = generateValidHppRequestWithEmptyDefaults()
 				.addHash(HASH_REQUEST)
@@ -113,6 +130,11 @@ public class SampleJsonData {
 		return hppRequest;
 	}
 
+	/**
+	 * Generates {@link HppRequest} object with empty defaults (time stamp and order ID).
+	 * 
+	 * @return HppRequest
+	 */
 	public static HppRequest generateValidHppRequestWithEmptyDefaults() {
 		HppRequest hppRequest = new HppRequest().addAccount(ACCOUNT)
 				.addAmount(AMOUNT)
@@ -142,6 +164,11 @@ public class SampleJsonData {
 		return hppRequest;
 	}
 
+	/**
+	 * Generates valid {@link HppResponse} object.	 * 
+	 * 
+	 * @return HppResponse
+	 */
 	public static HppResponse generateValidHppResponse() {
 		HppResponse hppResponse = new HppResponse();
 
@@ -168,6 +195,13 @@ public class SampleJsonData {
 		return hppResponse;
 	}
 
+	/**
+	 * Checks expected and converted {@link HppRequest} objects.
+	 * 
+	 * @param hppRequestExpected
+	 * @param hppRequestConverted
+	 * @param defaultsGenerated
+	 */
 	public static void checkValidHppRequest(HppRequest hppRequestExpected, HppRequest hppRequestConverted, boolean defaultsGenerated) {
 		Assert.assertEquals("Json conversion incorrect Account", hppRequestExpected.getAccount(), hppRequestConverted.getAccount());
 		Assert.assertEquals("Json conversion incorrect Amount", hppRequestExpected.getAmount(), hppRequestConverted.getAmount());
@@ -214,6 +248,12 @@ public class SampleJsonData {
 
 	}
 
+	/**
+	 * Checks expected and converted {@link HppResponse} objects.
+	 * 
+	 * @param hppResponseExpected
+	 * @param hppResponseConverted
+	 */
 	public static void checkValidHppResponse(HppResponse hppResponseExpected, HppResponse hppResponseConverted) {
 		Assert.assertEquals("Json conversion incorrect Account", hppResponseExpected.getAccount(), hppResponseConverted.getAccount());
 		Assert.assertEquals("Json conversion incorrect Amount", hppResponseExpected.getAmount(), hppResponseConverted.getAmount());
@@ -238,6 +278,11 @@ public class SampleJsonData {
 				hppResponseConverted.getTss().get(TSS_TWO_KEY));
 	}
 
+	/**
+	 * Checks response supplementary data matches expected values.
+	 * 
+	 * @param hppResponseConverted
+	 */
 	public static void checkValidHppResponseSupplementaryData(HppResponse hppResponseConverted) {
 		Assert.assertEquals("Json conversion incorrect Unknown one", UNKNOWN_ONE_VALUE,
 				hppResponseConverted.getSupplementaryData().get(UNKNOWN_ONE_KEY));
@@ -249,6 +294,11 @@ public class SampleJsonData {
 				hppResponseConverted.getSupplementaryData().get(UNKNOWN_FOUR_KEY));
 	}
 
+	/**
+	 * Checks request supplementary data matches expected values. 
+	 * 
+	 * @param hppRequestConverted
+	 */
 	public static void checkValidHppRequestSupplementaryData(HppRequest hppRequestConverted) {
 		Assert.assertEquals("Json conversion incorrect Unknown one", UNKNOWN_ONE_VALUE,
 				hppRequestConverted.getSupplementaryData().get(UNKNOWN_ONE_KEY));

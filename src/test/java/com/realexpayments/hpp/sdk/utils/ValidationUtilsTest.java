@@ -12,17 +12,28 @@ import com.realexpayments.hpp.sdk.SampleJsonData;
 import com.realexpayments.hpp.sdk.domain.HppRequest;
 
 /**
+ * Test class for validating {@link HppRequest}.
+ * 
  * @author markstanford
  */
 public class ValidationUtilsTest {
 
+	/**
+	 * Validation message bundle.
+	 */
 	private static ResourceBundle VALIDATION_MESSAGES;
 
+	/**
+	 * Instantiate validation messages bundle.
+	 */
 	@BeforeClass
 	public static void runOnce() {
 		VALIDATION_MESSAGES = ResourceBundle.getBundle("ValidationMessages");
 	}
 
+	/**
+	 * Test validation passed.
+	 */
 	@Test
 	public void validationPassedTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
@@ -35,6 +46,9 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test merchant ID.
+	 */
 	@Test
 	public void merchantIdTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
@@ -70,6 +84,14 @@ public class ValidationUtilsTest {
 			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.merchantId.size"), ex.getValidationMessages().get(0));
 		}
 
+		hppRequest.setMerchantId("azAZ09.");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
 		hppRequest.setMerchantId("$&^*");
 
 		try {
@@ -80,12 +102,23 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test account.
+	 */
 	@Test
 	public void accountTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
 		hppRequest.generateDefaults(SampleJsonData.SECRET);
 
 		hppRequest.setAccount("");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setAccount("azAZ09");
 
 		try {
 			ValidationUtils.validate(hppRequest);
@@ -124,6 +157,9 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test order ID.
+	 */
 	@Test
 	public void orderIdTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
@@ -135,6 +171,14 @@ public class ValidationUtilsTest {
 			ValidationUtils.validate(hppRequest);
 		} catch (RealexValidationException ex) {
 			Assert.fail("This HppRequest should have validation errors.");
+		}
+
+		hppRequest.setOrderId("azAZ09_-");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
 		}
 
 		char[] charsAtMax = new char[50];
@@ -168,6 +212,9 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test amount.
+	 */
 	@Test
 	public void amountTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
@@ -177,9 +224,8 @@ public class ValidationUtilsTest {
 
 		try {
 			ValidationUtils.validate(hppRequest);
-			Assert.fail("This HppRequest should have validation errors.");
 		} catch (RealexValidationException ex) {
-			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.amount.size"), ex.getValidationMessages().get(0));
+			Assert.fail("This HppRequest should not have validation errors.");
 		}
 
 		char[] charsAtMax = new char[11];
@@ -213,6 +259,9 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test currency.
+	 */
 	@Test
 	public void currencyTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
@@ -225,6 +274,14 @@ public class ValidationUtilsTest {
 			Assert.fail("This HppRequest should have validation errors.");
 		} catch (RealexValidationException ex) {
 			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.currency.size"), ex.getValidationMessages().get(0));
+		}
+
+		hppRequest.setCurrency("EuR");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
 		}
 
 		hppRequest.setCurrency("abcd");
@@ -246,6 +303,9 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test time stamp.
+	 */
 	@Test
 	public void timeStampTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
@@ -291,6 +351,9 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test hash.
+	 */
 	@Test
 	public void hashTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
@@ -336,10 +399,21 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test auto settle flag.
+	 */
 	@Test
 	public void autoSettleFlagTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
 		hppRequest.generateDefaults(SampleJsonData.SECRET);
+
+		hppRequest.setAutoSettleFlag(null);
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
 
 		hppRequest.setAutoSettleFlag("");
 
@@ -349,13 +423,44 @@ public class ValidationUtilsTest {
 			Assert.fail("This HppRequest should have no validation errors.");
 		}
 
-		hppRequest.setAutoSettleFlag("11");
+		hppRequest.setAutoSettleFlag("0");
 
 		try {
 			ValidationUtils.validate(hppRequest);
-			Assert.fail("This HppRequest should have validation errors.");
 		} catch (RealexValidationException ex) {
-			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.autoSettleFlag.size"), ex.getValidationMessages().get(0));
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setAutoSettleFlag("1");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setAutoSettleFlag("on");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setAutoSettleFlag("off");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setAutoSettleFlag("multi");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
 		}
 
 		hppRequest.setAutoSettleFlag("a");
@@ -368,12 +473,24 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test comment one.
+	 */
 	@Test
 	public void commentOneTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
 		hppRequest.generateDefaults(SampleJsonData.SECRET);
 
 		hppRequest.setCommentOne("");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest
+				.setCommentOne("a-z A-Z 0-9 ' \", + “” ._ - & \\ / @ ! ? % ( )* : £ $ & € # [ ] | = ;ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷ø¤ùúûüýþÿŒŽšœžŸ¥");
 
 		try {
 			ValidationUtils.validate(hppRequest);
@@ -401,17 +518,11 @@ public class ValidationUtilsTest {
 		} catch (RealexValidationException ex) {
 			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.comment1.size"), ex.getValidationMessages().get(0));
 		}
-
-		hppRequest.setCommentOne("\"");
-
-		try {
-			ValidationUtils.validate(hppRequest);
-			Assert.fail("This HppRequest should have validation errors.");
-		} catch (RealexValidationException ex) {
-			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.comment1.pattern"), ex.getValidationMessages().get(0));
-		}
 	}
 
+	/**
+	 * Test comment two.
+	 */
 	@Test
 	public void commentTwoTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
@@ -425,6 +536,14 @@ public class ValidationUtilsTest {
 			Assert.fail("This HppRequest should have no validation errors.");
 		}
 
+		hppRequest
+				.setCommentTwo("a-z A-Z 0-9 ' \", + “” ._ - & \\ / @ ! ? % ( )* : £ $ & € # [ ] | = ;ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷ø¤ùúûüýþÿŒŽšœžŸ¥");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
 		char[] charsAtMax = new char[255];
 		Arrays.fill(charsAtMax, '1');
 		hppRequest.setCommentTwo(new String(charsAtMax));
@@ -446,16 +565,11 @@ public class ValidationUtilsTest {
 			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.comment2.size"), ex.getValidationMessages().get(0));
 		}
 
-		hppRequest.setCommentTwo("\"");
-
-		try {
-			ValidationUtils.validate(hppRequest);
-			Assert.fail("This HppRequest should have validation errors.");
-		} catch (RealexValidationException ex) {
-			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.comment2.pattern"), ex.getValidationMessages().get(0));
-		}
 	}
 
+	/**
+	 * Test return TSS flag.
+	 */
 	@Test
 	public void returnTssFlagTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
@@ -496,12 +610,23 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test shipping code.
+	 */
 	@Test
 	public void shippingCodeTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
 		hppRequest.generateDefaults(SampleJsonData.SECRET);
 
 		hppRequest.setShippingCode("");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setShippingCode("azAZ09,.-/|");
 
 		try {
 			ValidationUtils.validate(hppRequest);
@@ -540,12 +665,23 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test shipping country.
+	 */
 	@Test
 	public void shippingCountryTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
 		hppRequest.generateDefaults(SampleJsonData.SECRET);
 
 		hppRequest.setShippingCountry("");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setShippingCountry("AZaz09,.-");
 
 		try {
 			ValidationUtils.validate(hppRequest);
@@ -584,12 +720,23 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test billing code.  
+	 */
 	@Test
 	public void billingCodeTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
 		hppRequest.generateDefaults(SampleJsonData.SECRET);
 
 		hppRequest.setBillingCode("");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setBillingCode("azAZ09,.-/|");
 
 		try {
 			ValidationUtils.validate(hppRequest);
@@ -628,12 +775,23 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test billing country.
+	 */
 	@Test
 	public void billingCountryTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
 		hppRequest.generateDefaults(SampleJsonData.SECRET);
 
 		hppRequest.setBillingCountry("");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setBillingCountry("AZaz09,.-");
 
 		try {
 			ValidationUtils.validate(hppRequest);
@@ -672,12 +830,23 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test customer number. 
+	 */
 	@Test
 	public void customerNumberTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
 		hppRequest.generateDefaults(SampleJsonData.SECRET);
 
 		hppRequest.setCustomerNumber("");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setCustomerNumber("az AZ 09 - _ . ,+ @ ");
 
 		try {
 			ValidationUtils.validate(hppRequest);
@@ -716,12 +885,23 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test variable reference. 
+	 */
 	@Test
 	public void variableReferenceTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
 		hppRequest.generateDefaults(SampleJsonData.SECRET);
 
 		hppRequest.setVariableReference("");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setVariableReference("az AZ 09 - _ . ,+ @ ");
 
 		try {
 			ValidationUtils.validate(hppRequest);
@@ -750,12 +930,23 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test product ID.
+	 */
 	@Test
 	public void productIdTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
 		hppRequest.generateDefaults(SampleJsonData.SECRET);
 
 		hppRequest.setProductId("");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setProductId("az AZ 09 - _ . ,+ @ ");
 
 		try {
 			ValidationUtils.validate(hppRequest);
@@ -794,6 +985,9 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test language.
+	 */
 	@Test
 	public void languageTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
@@ -843,13 +1037,63 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test card payment button text.
+	 */
 	@Test
 	public void cardPaymentButtonTextTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
 		hppRequest.generateDefaults(SampleJsonData.SECRET);
 
 		hppRequest.setCardPaymentButtonText("");
-		;
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setCardPaymentButtonText(" azAZ09'\",+“”._- & ");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setCardPaymentButtonText("\\/@!?%()*:£$&€#[]|");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setCardPaymentButtonText("=ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒ");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setCardPaymentButtonText("ÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæ");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setCardPaymentButtonText("çèéêëìíîïðñòóôõö÷ø¤ù");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setCardPaymentButtonText("úûüýþÿŒŽšœžŸ¥");
 
 		try {
 			ValidationUtils.validate(hppRequest);
@@ -877,17 +1121,11 @@ public class ValidationUtilsTest {
 		} catch (RealexValidationException ex) {
 			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.cardPaymentButtonText.size"), ex.getValidationMessages().get(0));
 		}
-
-		hppRequest.setCardPaymentButtonText("\"");
-
-		try {
-			ValidationUtils.validate(hppRequest);
-			Assert.fail("This HppRequest should have validation errors.");
-		} catch (RealexValidationException ex) {
-			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.cardPaymentButtonText.pattern"), ex.getValidationMessages().get(0));
-		}
 	}
 
+	/**
+	 * Test card storage enable. 
+	 */
 	@Test
 	public void cardStorageEnableTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
@@ -920,6 +1158,9 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test offer save card. 
+	 */
 	@Test
 	public void offerSaveCardTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
@@ -952,12 +1193,23 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test payer reference. 
+	 */
 	@Test
 	public void payerReferenceTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
 		hppRequest.generateDefaults(SampleJsonData.SECRET);
 
 		hppRequest.setPayerReference("");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setPayerReference("azAZ09\\ _");
 
 		try {
 			ValidationUtils.validate(hppRequest);
@@ -996,6 +1248,9 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test payment reference. 
+	 */
 	@Test
 	public void paymentReferenceTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
@@ -1009,7 +1264,15 @@ public class ValidationUtilsTest {
 			Assert.fail("This HppRequest should have no validation errors.");
 		}
 
-		char[] charsAtMax = new char[30];
+		hppRequest.setPaymentReference("azAZ09-_");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		char[] charsAtMax = new char[50];
 		Arrays.fill(charsAtMax, '1');
 		hppRequest.setPaymentReference(new String(charsAtMax));
 
@@ -1019,7 +1282,7 @@ public class ValidationUtilsTest {
 			Assert.fail("This HppRequest should not have validation errors.");
 		}
 
-		char[] charsOverMax = new char[31];
+		char[] charsOverMax = new char[51];
 		Arrays.fill(charsOverMax, 'a');
 		hppRequest.setPaymentReference(new String(charsOverMax));
 
@@ -1040,6 +1303,9 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test payer exists. 
+	 */
 	@Test
 	public void payerExistsTest() {
 		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();

@@ -10,13 +10,21 @@ import com.realexpayments.hpp.sdk.domain.HppRequest;
 import com.realexpayments.hpp.sdk.domain.HppResponse;
 
 /**
+ * Unit test class for {@link RealexHpp}  
+ * 
  * @author markstanford
  *
  */
 public class RealexHppTest {
 
+	/**
+	 * {@link RealexHpp} singleton.
+	 */
 	private static final RealexHpp REALEX_HPP = new RealexHpp(SampleJsonData.SECRET);
 
+	/**
+	 * Test converting a {@link HppRequest} object to JSON. Includes validation and generation of defaults. 
+	 */
 	@Test
 	public void requestToJsonSuccessTest() {
 		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequestWithEmptyDefaults();
@@ -28,6 +36,9 @@ public class RealexHppTest {
 		SampleJsonData.checkValidHppRequestSupplementaryData(hppRequestConverted);
 	}
 
+	/**
+	 * Test converting encoded JSON to {@link HppRequest}.
+	 */
 	@Test
 	public void requestFromJsonEncodedSuccessTest() throws FileNotFoundException {
 		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequest();
@@ -38,6 +49,11 @@ public class RealexHppTest {
 		SampleJsonData.checkValidHppRequest(hppRequestExpected, hppRequestConverted, false);
 	}
 
+	/**
+	 * Test converting unencoded JON to {@link HppRequest}.
+	 * 
+	 * @throws FileNotFoundException
+	 */
 	@Test
 	public void requestFromJsonDecodedSuccessTest() throws FileNotFoundException {
 		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequest();
@@ -48,6 +64,9 @@ public class RealexHppTest {
 		SampleJsonData.checkValidHppRequest(hppRequestExpected, hppRequestConverted, false);
 	}
 
+	/**
+	 * Test converting {@link HppResponse} to JSON.  Includes hash validation.
+	 */
 	@Test
 	public void responseToJsonSuccessTest() {
 		HppResponse hppResponseExpected = SampleJsonData.generateValidHppResponse();
@@ -59,6 +78,11 @@ public class RealexHppTest {
 		SampleJsonData.checkValidHppResponseSupplementaryData(hppResponseConverted);
 	}
 
+	/**
+	 * Test converting encoded JSON to {@link HppResponse}.
+	 * 
+	 * @throws FileNotFoundException
+	 */
 	@Test
 	public void responseFromJsonEncodedSuccessTest() throws FileNotFoundException {
 		HppResponse hppResponseExpected = SampleJsonData.generateValidHppResponse();
@@ -70,6 +94,11 @@ public class RealexHppTest {
 		SampleJsonData.checkValidHppResponseSupplementaryData(hppResponseConverted);
 	}
 
+	/**
+	 * Test converting unencoded JSON to {@link HppResponse}.
+	 * 
+	 * @throws FileNotFoundException
+	 */
 	@Test
 	public void responseFromJsonDecodedSuccessTest() throws FileNotFoundException {
 		HppResponse hppResponseExpected = SampleJsonData.generateValidHppResponse();

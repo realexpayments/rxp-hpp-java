@@ -11,11 +11,16 @@ import com.realexpayments.hpp.sdk.domain.HppRequest;
 import com.realexpayments.hpp.sdk.domain.HppResponse;
 
 /**
+ * Test class for {@link JsonUtils}.
+ * 
  * @author markstanford
  *
  */
 public class JsonUtilsTest {
 
+	/**
+	 * Test converting {@link HppRequest} to JSON.
+	 */
 	@Test
 	public void toJsonHppRequestTest() {
 		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequest();
@@ -25,6 +30,11 @@ public class JsonUtilsTest {
 		SampleJsonData.checkValidHppRequestSupplementaryData(hppRequestConverted);
 	}
 
+	/**
+	 * Test converting JSON to {@link HppRequest}.
+	 * 
+	 * @throws FileNotFoundException
+	 */
 	@Test
 	public void fromJsonHppRequestTest() throws FileNotFoundException {
 		File file = new File(this.getClass().getResource(SampleJsonData.VALID_HPP_REQUEST_JSON_PATH).getPath());
@@ -34,6 +44,11 @@ public class JsonUtilsTest {
 		SampleJsonData.checkValidHppRequest(hppRequestExpected, hppRequestConverted, true);
 	}
 
+	/**
+	 * Test converting JSON with unknown data to {@link HppRequest}.
+	 * 
+	 * @throws FileNotFoundException
+	 */
 	@Test
 	public void fromJsonHppRequestUnknownDataTest() throws FileNotFoundException {
 		File file = new File(this.getClass().getResource(SampleJsonData.UNKNOWN_DATA_HPP_REQUEST_JSON_PATH).getPath());
@@ -44,6 +59,9 @@ public class JsonUtilsTest {
 		SampleJsonData.checkValidHppRequestSupplementaryData(hppRequestConverted);
 	}
 
+	/**
+	 * Test converting {@link HppResponse} to JSON.
+	 */
 	@Test
 	public void toJsonHppResponseTest() {
 		HppResponse hppResponseExpected = SampleJsonData.generateValidHppResponse();
@@ -52,6 +70,9 @@ public class JsonUtilsTest {
 		SampleJsonData.checkValidHppResponse(hppResponseExpected, hppResponseConverted);
 	}
 
+	/**
+	 * Test converting JSON to {@link HppResponse}.
+	 */
 	@Test
 	public void fromJsonHppResponseTest() throws FileNotFoundException {
 		File file = new File(this.getClass().getResource(SampleJsonData.VALID_HPP_RESPONSE_JSON_PATH).getPath());
@@ -61,6 +82,11 @@ public class JsonUtilsTest {
 		SampleJsonData.checkValidHppResponse(hppResponseExpected, hppResponseConverted);
 	}
 
+	/**
+	 * Test converting JSON with unknown data to {@link HppResponse}.
+	 * 
+	 * @throws FileNotFoundException
+	 */
 	@Test
 	public void fromJsonHppResponseUnknownDataTest() throws FileNotFoundException {
 		File file = new File(this.getClass().getResource(SampleJsonData.UNKNOWN_DATA_HPP_RESPONSE_JSON_PATH).getPath());
