@@ -74,13 +74,13 @@ public class RealexHpp {
 
 		String json = null;
 
-		//validate request
-		LOGGER.debug("Validating request.");
-		ValidationUtils.validate(hppRequest);
-
 		//generate defaults
 		LOGGER.debug("Generating defaults.");
 		hppRequest.generateDefaults(secret);
+
+		//validate request
+		LOGGER.debug("Validating request.");
+		ValidationUtils.validate(hppRequest);
 
 		//encode 
 		LOGGER.debug("Encoding object.");
