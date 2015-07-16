@@ -1,5 +1,6 @@
 package com.realexpayments.hpp.sdk.domain;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -543,65 +544,67 @@ public class HppResponse {
 	/**
 	 * Base64 encodes the HPP response values.
 	 * 
+	 * @param charset
 	 * @return HppResponse
+	 * @throws UnsupportedEncodingException 
 	 */
-	public HppResponse encode() {
+	public HppResponse encode(String charset) throws UnsupportedEncodingException {
 
 		if (null != this.merchantId) {
-			this.merchantId = new String(Base64.encodeBase64(this.merchantId.getBytes()));
+			this.merchantId = new String(Base64.encodeBase64(this.merchantId.getBytes(charset)), charset);
 		}
 		if (null != this.account) {
-			this.account = new String(Base64.encodeBase64(this.account.getBytes()));
+			this.account = new String(Base64.encodeBase64(this.account.getBytes(charset)), charset);
 		}
 		if (null != this.amount) {
-			this.amount = new String(Base64.encodeBase64(this.amount.getBytes()));
+			this.amount = new String(Base64.encodeBase64(this.amount.getBytes(charset)), charset);
 		}
 		if (null != this.authCode) {
-			this.authCode = new String(Base64.encodeBase64(this.authCode.getBytes()));
+			this.authCode = new String(Base64.encodeBase64(this.authCode.getBytes(charset)), charset);
 		}
 		if (null != this.batchId) {
-			this.batchId = new String(Base64.encodeBase64(this.batchId.getBytes()));
+			this.batchId = new String(Base64.encodeBase64(this.batchId.getBytes(charset)), charset);
 		}
 		if (null != this.cavv) {
-			this.cavv = new String(Base64.encodeBase64(this.cavv.getBytes()));
+			this.cavv = new String(Base64.encodeBase64(this.cavv.getBytes(charset)), charset);
 		}
 		if (null != this.cvnResult) {
-			this.cvnResult = new String(Base64.encodeBase64(this.cvnResult.getBytes()));
+			this.cvnResult = new String(Base64.encodeBase64(this.cvnResult.getBytes(charset)), charset);
 		}
 		if (null != this.eci) {
-			this.eci = new String(Base64.encodeBase64(this.eci.getBytes()));
+			this.eci = new String(Base64.encodeBase64(this.eci.getBytes(charset)), charset);
 		}
 		if (null != this.commentOne) {
-			this.commentOne = new String(Base64.encodeBase64(this.commentOne.getBytes()));
+			this.commentOne = new String(Base64.encodeBase64(this.commentOne.getBytes(charset)), charset);
 		}
 		if (null != this.commentTwo) {
-			this.commentTwo = new String(Base64.encodeBase64(this.commentTwo.getBytes()));
+			this.commentTwo = new String(Base64.encodeBase64(this.commentTwo.getBytes(charset)), charset);
 		}
 		if (null != this.message) {
-			this.message = new String(Base64.encodeBase64(this.message.getBytes()));
+			this.message = new String(Base64.encodeBase64(this.message.getBytes(charset)), charset);
 		}
 		if (null != this.pasRef) {
-			this.pasRef = new String(Base64.encodeBase64(this.pasRef.getBytes()));
+			this.pasRef = new String(Base64.encodeBase64(this.pasRef.getBytes(charset)), charset);
 		}
 		if (null != this.hash) {
-			this.hash = new String(Base64.encodeBase64(this.hash.getBytes()));
+			this.hash = new String(Base64.encodeBase64(this.hash.getBytes(charset)), charset);
 		}
 		if (null != this.result) {
-			this.result = new String(Base64.encodeBase64(this.result.getBytes()));
+			this.result = new String(Base64.encodeBase64(this.result.getBytes(charset)), charset);
 		}
 		if (null != this.xid) {
-			this.xid = new String(Base64.encodeBase64(this.xid.getBytes()));
+			this.xid = new String(Base64.encodeBase64(this.xid.getBytes(charset)), charset);
 		}
 		if (null != this.orderId) {
-			this.orderId = new String(Base64.encodeBase64(this.orderId.getBytes()));
+			this.orderId = new String(Base64.encodeBase64(this.orderId.getBytes(charset)), charset);
 		}
 		if (null != this.timeStamp) {
-			this.timeStamp = new String(Base64.encodeBase64(this.timeStamp.getBytes()));
+			this.timeStamp = new String(Base64.encodeBase64(this.timeStamp.getBytes(charset)), charset);
 		}
 		if (null != this.tss) {
 			Map<String, String> tssMap = new HashMap<String, String>();
 			for (String key : tss.keySet()) {
-				tssMap.put(key, new String(Base64.encodeBase64(tss.get(key).getBytes())));
+				tssMap.put(key, new String(Base64.encodeBase64(tss.get(key).getBytes(charset)), charset));
 			}
 			this.tss = new HashMap<String, String>();
 			this.tss = tssMap;
@@ -609,7 +612,7 @@ public class HppResponse {
 		if (null != this.supplementaryData) {
 			Map<String, String> supplementaryDataMap = new HashMap<String, String>();
 			for (String key : supplementaryData.keySet()) {
-				supplementaryDataMap.put(key, new String(Base64.encodeBase64(supplementaryData.get(key).getBytes())));
+				supplementaryDataMap.put(key, new String(Base64.encodeBase64(supplementaryData.get(key).getBytes(charset)), charset));
 			}
 			this.supplementaryData = new HashMap<String, String>();
 			this.supplementaryData.putAll(supplementaryDataMap);
@@ -620,65 +623,67 @@ public class HppResponse {
 	/**
 	 * Base64 decodes the HPP response values.
 	 * 
+	 * @param charset
 	 * @return HppResponse
+	 * @throws UnsupportedEncodingException 
 	 */
-	public HppResponse decode() {
+	public HppResponse decode(String charset) throws UnsupportedEncodingException {
 
 		if (null != this.merchantId) {
-			this.merchantId = new String(Base64.decodeBase64(this.merchantId.getBytes()));
+			this.merchantId = new String(Base64.decodeBase64(this.merchantId.getBytes(charset)), charset);
 		}
 		if (null != this.account) {
-			this.account = new String(Base64.decodeBase64(this.account.getBytes()));
+			this.account = new String(Base64.decodeBase64(this.account.getBytes(charset)), charset);
 		}
 		if (null != this.amount) {
-			this.amount = new String(Base64.decodeBase64(this.amount.getBytes()));
+			this.amount = new String(Base64.decodeBase64(this.amount.getBytes(charset)), charset);
 		}
 		if (null != this.authCode) {
-			this.authCode = new String(Base64.decodeBase64(this.authCode.getBytes()));
+			this.authCode = new String(Base64.decodeBase64(this.authCode.getBytes(charset)), charset);
 		}
 		if (null != this.batchId) {
-			this.batchId = new String(Base64.decodeBase64(this.batchId.getBytes()));
+			this.batchId = new String(Base64.decodeBase64(this.batchId.getBytes(charset)), charset);
 		}
 		if (null != this.cavv) {
-			this.cavv = new String(Base64.decodeBase64(this.cavv.getBytes()));
+			this.cavv = new String(Base64.decodeBase64(this.cavv.getBytes(charset)), charset);
 		}
 		if (null != this.cvnResult) {
-			this.cvnResult = new String(Base64.decodeBase64(this.cvnResult.getBytes()));
+			this.cvnResult = new String(Base64.decodeBase64(this.cvnResult.getBytes(charset)), charset);
 		}
 		if (null != this.eci) {
-			this.eci = new String(Base64.decodeBase64(this.eci.getBytes()));
+			this.eci = new String(Base64.decodeBase64(this.eci.getBytes(charset)), charset);
 		}
 		if (null != this.commentOne) {
-			this.commentOne = new String(Base64.decodeBase64(this.commentOne.getBytes()));
+			this.commentOne = new String(Base64.decodeBase64(this.commentOne.getBytes(charset)), charset);
 		}
 		if (null != this.commentTwo) {
-			this.commentTwo = new String(Base64.decodeBase64(this.commentTwo.getBytes()));
+			this.commentTwo = new String(Base64.decodeBase64(this.commentTwo.getBytes(charset)), charset);
 		}
 		if (null != this.message) {
-			this.message = new String(Base64.decodeBase64(this.message.getBytes()));
+			this.message = new String(Base64.decodeBase64(this.message.getBytes(charset)), charset);
 		}
 		if (null != this.pasRef) {
-			this.pasRef = new String(Base64.decodeBase64(this.pasRef.getBytes()));
+			this.pasRef = new String(Base64.decodeBase64(this.pasRef.getBytes(charset)), charset);
 		}
 		if (null != this.hash) {
-			this.hash = new String(Base64.decodeBase64(this.hash.getBytes()));
+			this.hash = new String(Base64.decodeBase64(this.hash.getBytes(charset)), charset);
 		}
 		if (null != this.result) {
-			this.result = new String(Base64.decodeBase64(this.result.getBytes()));
+			this.result = new String(Base64.decodeBase64(this.result.getBytes(charset)), charset);
 		}
 		if (null != this.xid) {
-			this.xid = new String(Base64.decodeBase64(this.xid.getBytes()));
+			this.xid = new String(Base64.decodeBase64(this.xid.getBytes(charset)), charset);
 		}
 		if (null != this.orderId) {
-			this.orderId = new String(Base64.decodeBase64(this.orderId.getBytes()));
+			this.orderId = new String(Base64.decodeBase64(this.orderId.getBytes(charset)), charset);
 		}
 		if (null != this.timeStamp) {
-			this.timeStamp = new String(Base64.decodeBase64(this.timeStamp.getBytes()));
+			this.timeStamp = new String(Base64.decodeBase64(this.timeStamp.getBytes(charset)), charset);
 		}
 		if (null != this.tss) {
 			Map<String, String> tssMap = new HashMap<String, String>();
 			for (String key : tss.keySet()) {
-				tssMap.put(key, new String(Base64.decodeBase64(tss.get(key).getBytes())));
+				tssMap.put(key, new String(Base64.decodeBase64(tss.get(key).getBytes(charset)), charset));
 			}
 			this.tss = new HashMap<String, String>();
 			this.tss = tssMap;
@@ -686,7 +691,7 @@ public class HppResponse {
 		if (null != this.supplementaryData) {
 			Map<String, String> supplementaryDataMap = new HashMap<String, String>();
 			for (String key : supplementaryData.keySet()) {
-				supplementaryDataMap.put(key, new String(Base64.decodeBase64(supplementaryData.get(key).getBytes())));
+				supplementaryDataMap.put(key, new String(Base64.decodeBase64(supplementaryData.get(key).getBytes(charset)), charset));
 			}
 			this.supplementaryData = new HashMap<String, String>();
 			this.supplementaryData.putAll(supplementaryDataMap);

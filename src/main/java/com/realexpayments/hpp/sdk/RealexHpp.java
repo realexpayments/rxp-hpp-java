@@ -1,5 +1,7 @@
 package com.realexpayments.hpp.sdk;
 
+import java.io.UnsupportedEncodingException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +39,11 @@ public class RealexHpp {
 	 * Logger 
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(RealexHpp.class);
+
+	/**
+	 * Character set to use for encoding/decoding.
+	 */
+	private static final String ENCODING_CHARSET = "UTF-8";
 
 	/**
 	 * The shared secret issued by Realex. Used to create the SHA-1 hash in the request and
@@ -84,7 +91,12 @@ public class RealexHpp {
 
 		//encode 
 		LOGGER.debug("Encoding object.");
-		hppRequest = hppRequest.encode();
+		try {
+			hppRequest = hppRequest.encode(ENCODING_CHARSET);
+		} catch (UnsupportedEncodingException ex) {
+			LOGGER.error("Exception encoding HPP request.", ex);
+			throw new RealexException("Exception encoding HPP request.", ex);
+		}
 
 		//convert to JSON
 		LOGGER.debug("Converting to JSON.");
@@ -118,7 +130,12 @@ public class RealexHpp {
 		//decode if necessary
 		if (encoded) {
 			LOGGER.debug("Decoding object.");
-			hppRequest = hppRequest.decode();
+			try {
+				hppRequest = hppRequest.decode(ENCODING_CHARSET);
+			} catch (UnsupportedEncodingException ex) {
+				LOGGER.error("Exception encoding HPP request.", ex);
+				throw new RealexException("Exception decoding HPP request.", ex);
+			}
 		}
 
 		//validate HPP request 
@@ -172,7 +189,12 @@ public class RealexHpp {
 
 		//encode 
 		LOGGER.debug("Encoding object.");
-		hppResponse = hppResponse.encode();
+		try {
+			hppResponse = hppResponse.encode(ENCODING_CHARSET);
+		} catch (UnsupportedEncodingException ex) {
+			LOGGER.error("Exception encoding HPP response.", ex);
+			throw new RealexException("Exception encoding HPP response.", ex);
+		}
 
 		//convert to JSON
 		LOGGER.debug("Converting to JSON.");
@@ -224,7 +246,12 @@ public class RealexHpp {
 		//decode if necessary
 		if (encoded) {
 			LOGGER.debug("Decoding object.");
-			hppResponse = hppResponse.decode();
+			try {
+				hppResponse = hppResponse.decode(ENCODING_CHARSET);
+			} catch (UnsupportedEncodingException ex) {
+				LOGGER.error("Exception decoding HPP response.", ex);
+				throw new RealexException("Exception decoding HPP response.", ex);
+			}
 		}
 
 		//validate HPP response hash 

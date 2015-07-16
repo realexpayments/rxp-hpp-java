@@ -2,6 +2,7 @@ package com.realexpayments.hpp.sdk;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
 import org.junit.Test;
@@ -23,15 +24,21 @@ public class RealexHppTest {
 	private static final RealexHpp REALEX_HPP = new RealexHpp(SampleJsonData.SECRET);
 
 	/**
+	 * Character set to use for encoding/decoding.
+	 */
+	private static final String ENCODING_CHARSET = "UTF-8";
+
+	/**
 	 * Test converting a {@link HppRequest} object to JSON. Includes validation and generation of defaults. 
+	 * @throws UnsupportedEncodingException 
 	 */
 	@Test
-	public void requestToJsonSuccessTest() {
+	public void requestToJsonSuccessTest() throws UnsupportedEncodingException {
 		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequestWithEmptyDefaults();
 		String json = REALEX_HPP.requestToJson(hppRequestExpected);
 
 		HppRequest hppRequestConverted = REALEX_HPP.requestFromJson(json);
-		hppRequestExpected.decode();
+		hppRequestExpected.decode(ENCODING_CHARSET);
 		SampleJsonData.checkValidHppRequest(hppRequestExpected, hppRequestConverted, false);
 		SampleJsonData.checkValidHppRequestSupplementaryData(hppRequestConverted);
 	}
@@ -66,14 +73,15 @@ public class RealexHppTest {
 
 	/**
 	 * Test converting {@link HppResponse} to JSON.  Includes hash validation.
+	 * @throws UnsupportedEncodingException 
 	 */
 	@Test
-	public void responseToJsonSuccessTest() {
+	public void responseToJsonSuccessTest() throws UnsupportedEncodingException {
 		HppResponse hppResponseExpected = SampleJsonData.generateValidHppResponse();
 		String json = REALEX_HPP.responseToJson(hppResponseExpected);
 
 		HppResponse hppResponseConverted = REALEX_HPP.responseFromJson(json);
-		hppResponseExpected.decode();
+		hppResponseExpected.decode(ENCODING_CHARSET);
 		SampleJsonData.checkValidHppResponse(hppResponseExpected, hppResponseConverted);
 		SampleJsonData.checkValidHppResponseSupplementaryData(hppResponseConverted);
 	}

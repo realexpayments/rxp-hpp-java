@@ -1,5 +1,6 @@
 package com.realexpayments.hpp.sdk.domain;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -1157,90 +1158,92 @@ public class HppRequest {
 	/**
 	 * Base64 encodes all Hpp Request values.
 	 * 
+	 * @param charset
 	 * @return HppRequest
+	 * @throws UnsupportedEncodingException 
 	 */
-	public HppRequest encode() {
+	public HppRequest encode(String charset) throws UnsupportedEncodingException {
 
 		if (null != this.account) {
-			this.account = new String(Base64.encodeBase64(this.account.getBytes()));
+			this.account = new String(Base64.encodeBase64(this.account.getBytes(charset)), charset);
 		}
 		if (null != this.amount) {
-			this.amount = new String(Base64.encodeBase64(this.amount.getBytes()));
+			this.amount = new String(Base64.encodeBase64(this.amount.getBytes(charset)), charset);
 		}
 		if (null != this.autoSettleFlag) {
-			this.autoSettleFlag = new String(Base64.encodeBase64(this.autoSettleFlag.getBytes()));
+			this.autoSettleFlag = new String(Base64.encodeBase64(this.autoSettleFlag.getBytes(charset)), charset);
 		}
 		if (null != this.billingCode) {
-			this.billingCode = new String(Base64.encodeBase64(this.billingCode.getBytes()));
+			this.billingCode = new String(Base64.encodeBase64(this.billingCode.getBytes(charset)), charset);
 		}
 		if (null != this.billingCountry) {
-			this.billingCountry = new String(Base64.encodeBase64(this.billingCountry.getBytes()));
+			this.billingCountry = new String(Base64.encodeBase64(this.billingCountry.getBytes(charset)), charset);
 		}
 		if (null != this.cardPaymentButtonText) {
-			this.cardPaymentButtonText = new String(Base64.encodeBase64(this.cardPaymentButtonText.getBytes()));
+			this.cardPaymentButtonText = new String(Base64.encodeBase64(this.cardPaymentButtonText.getBytes(charset)), charset);
 		}
 		if (null != this.cardStorageEnable) {
-			this.cardStorageEnable = new String(Base64.encodeBase64(this.cardStorageEnable.getBytes()));
+			this.cardStorageEnable = new String(Base64.encodeBase64(this.cardStorageEnable.getBytes(charset)), charset);
 		}
 		if (null != this.commentOne) {
-			this.commentOne = new String(Base64.encodeBase64(this.commentOne.getBytes()));
+			this.commentOne = new String(Base64.encodeBase64(this.commentOne.getBytes(charset)), charset);
 		}
 		if (null != this.commentTwo) {
-			this.commentTwo = new String(Base64.encodeBase64(this.commentTwo.getBytes()));
+			this.commentTwo = new String(Base64.encodeBase64(this.commentTwo.getBytes(charset)), charset);
 		}
 		if (null != this.currency) {
-			this.currency = new String(Base64.encodeBase64(this.currency.getBytes()));
+			this.currency = new String(Base64.encodeBase64(this.currency.getBytes(charset)), charset);
 		}
 		if (null != this.customerNumber) {
-			this.customerNumber = new String(Base64.encodeBase64(this.customerNumber.getBytes()));
+			this.customerNumber = new String(Base64.encodeBase64(this.customerNumber.getBytes(charset)), charset);
 		}
 		if (null != this.hash) {
-			this.hash = new String(Base64.encodeBase64(this.hash.getBytes()));
+			this.hash = new String(Base64.encodeBase64(this.hash.getBytes(charset)), charset);
 		}
 		if (null != this.language) {
-			this.language = new String(Base64.encodeBase64(this.language.getBytes()));
+			this.language = new String(Base64.encodeBase64(this.language.getBytes(charset)), charset);
 		}
 		if (null != this.merchantId) {
-			this.merchantId = new String(Base64.encodeBase64(this.merchantId.getBytes()));
+			this.merchantId = new String(Base64.encodeBase64(this.merchantId.getBytes(charset)), charset);
 		}
 		if (null != this.offerSaveCard) {
-			this.offerSaveCard = new String(Base64.encodeBase64(this.offerSaveCard.getBytes()));
+			this.offerSaveCard = new String(Base64.encodeBase64(this.offerSaveCard.getBytes(charset)), charset);
 		}
 		if (null != this.orderId) {
-			this.orderId = new String(Base64.encodeBase64(this.orderId.getBytes()));
+			this.orderId = new String(Base64.encodeBase64(this.orderId.getBytes(charset)), charset);
 		}
 		if (null != this.payerExists) {
-			this.payerExists = new String(Base64.encodeBase64(this.payerExists.getBytes()));
+			this.payerExists = new String(Base64.encodeBase64(this.payerExists.getBytes(charset)), charset);
 		}
 		if (null != this.payerReference) {
-			this.payerReference = new String(Base64.encodeBase64(this.payerReference.getBytes()));
+			this.payerReference = new String(Base64.encodeBase64(this.payerReference.getBytes(charset)), charset);
 		}
 		if (null != this.paymentReference) {
-			this.paymentReference = new String(Base64.encodeBase64(this.paymentReference.getBytes()));
+			this.paymentReference = new String(Base64.encodeBase64(this.paymentReference.getBytes(charset)), charset);
 		}
 		if (null != this.productId) {
-			this.productId = new String(Base64.encodeBase64(this.productId.getBytes()));
+			this.productId = new String(Base64.encodeBase64(this.productId.getBytes(charset)), charset);
 		}
 		if (null != this.returnTss) {
-			this.returnTss = new String(Base64.encodeBase64(this.returnTss.getBytes()));
+			this.returnTss = new String(Base64.encodeBase64(this.returnTss.getBytes(charset)), charset);
 		}
 		if (null != this.shippingCode) {
-			this.shippingCode = new String(Base64.encodeBase64(this.shippingCode.getBytes()));
+			this.shippingCode = new String(Base64.encodeBase64(this.shippingCode.getBytes(charset)), charset);
 		}
 		if (null != this.shippingCountry) {
-			this.shippingCountry = new String(Base64.encodeBase64(this.shippingCountry.getBytes()));
+			this.shippingCountry = new String(Base64.encodeBase64(this.shippingCountry.getBytes(charset)), charset);
 		}
 		if (null != this.timeStamp) {
-			this.timeStamp = new String(Base64.encodeBase64(this.timeStamp.getBytes()));
+			this.timeStamp = new String(Base64.encodeBase64(this.timeStamp.getBytes(charset)), charset);
 		}
 		if (null != this.variableReference) {
-			this.variableReference = new String(Base64.encodeBase64(this.variableReference.getBytes()));
+			this.variableReference = new String(Base64.encodeBase64(this.variableReference.getBytes(charset)));
 		}
 
 		if (null != this.supplementaryData) {
 			Map<String, String> supplementaryDataMap = new HashMap<String, String>();
 			for (String key : supplementaryData.keySet()) {
-				supplementaryDataMap.put(key, new String(Base64.encodeBase64(supplementaryData.get(key).getBytes())));
+				supplementaryDataMap.put(key, new String(Base64.encodeBase64(supplementaryData.get(key).getBytes(charset)), charset));
 			}
 			this.supplementaryData.putAll(supplementaryDataMap);
 		}
@@ -1251,90 +1254,92 @@ public class HppRequest {
 	/**
 	 * Base64 decodes all Hpp Request values.
 	 * 
+	 * @param charset
 	 * @return HppRequest
+	 * @throws UnsupportedEncodingException 
 	 */
-	public HppRequest decode() {
+	public HppRequest decode(String charset) throws UnsupportedEncodingException {
 
 		if (null != this.account) {
-			this.account = new String(Base64.decodeBase64(this.account.getBytes()));
+			this.account = new String(Base64.decodeBase64(this.account.getBytes(charset)), charset);
 		}
 		if (null != this.amount) {
-			this.amount = new String(Base64.decodeBase64(this.amount.getBytes()));
+			this.amount = new String(Base64.decodeBase64(this.amount.getBytes(charset)), charset);
 		}
 		if (null != this.autoSettleFlag) {
-			this.autoSettleFlag = new String(Base64.decodeBase64(this.autoSettleFlag.getBytes()));
+			this.autoSettleFlag = new String(Base64.decodeBase64(this.autoSettleFlag.getBytes(charset)), charset);
 		}
 		if (null != this.billingCode) {
-			this.billingCode = new String(Base64.decodeBase64(this.billingCode.getBytes()));
+			this.billingCode = new String(Base64.decodeBase64(this.billingCode.getBytes(charset)), charset);
 		}
 		if (null != this.billingCountry) {
-			this.billingCountry = new String(Base64.decodeBase64(this.billingCountry.getBytes()));
+			this.billingCountry = new String(Base64.decodeBase64(this.billingCountry.getBytes(charset)), charset);
 		}
 		if (null != this.cardPaymentButtonText) {
-			this.cardPaymentButtonText = new String(Base64.decodeBase64(this.cardPaymentButtonText.getBytes()));
+			this.cardPaymentButtonText = new String(Base64.decodeBase64(this.cardPaymentButtonText.getBytes(charset)), charset);
 		}
 		if (null != this.cardStorageEnable) {
-			this.cardStorageEnable = new String(Base64.decodeBase64(this.cardStorageEnable.getBytes()));
+			this.cardStorageEnable = new String(Base64.decodeBase64(this.cardStorageEnable.getBytes(charset)), charset);
 		}
 		if (null != this.commentOne) {
-			this.commentOne = new String(Base64.decodeBase64(this.commentOne.getBytes()));
+			this.commentOne = new String(Base64.decodeBase64(this.commentOne.getBytes(charset)), charset);
 		}
 		if (null != this.commentTwo) {
-			this.commentTwo = new String(Base64.decodeBase64(this.commentTwo.getBytes()));
+			this.commentTwo = new String(Base64.decodeBase64(this.commentTwo.getBytes(charset)), charset);
 		}
 		if (null != this.currency) {
-			this.currency = new String(Base64.decodeBase64(this.currency.getBytes()));
+			this.currency = new String(Base64.decodeBase64(this.currency.getBytes(charset)), charset);
 		}
 		if (null != this.customerNumber) {
-			this.customerNumber = new String(Base64.decodeBase64(this.customerNumber.getBytes()));
+			this.customerNumber = new String(Base64.decodeBase64(this.customerNumber.getBytes(charset)), charset);
 		}
 		if (null != this.hash) {
-			this.hash = new String(Base64.decodeBase64(this.hash.getBytes()));
+			this.hash = new String(Base64.decodeBase64(this.hash.getBytes(charset)), charset);
 		}
 		if (null != this.language) {
-			this.language = new String(Base64.decodeBase64(this.language.getBytes()));
+			this.language = new String(Base64.decodeBase64(this.language.getBytes(charset)), charset);
 		}
 		if (null != this.merchantId) {
-			this.merchantId = new String(Base64.decodeBase64(this.merchantId.getBytes()));
+			this.merchantId = new String(Base64.decodeBase64(this.merchantId.getBytes(charset)), charset);
 		}
 		if (null != this.offerSaveCard) {
-			this.offerSaveCard = new String(Base64.decodeBase64(this.offerSaveCard.getBytes()));
+			this.offerSaveCard = new String(Base64.decodeBase64(this.offerSaveCard.getBytes(charset)), charset);
 		}
 		if (null != this.orderId) {
-			this.orderId = new String(Base64.decodeBase64(this.orderId.getBytes()));
+			this.orderId = new String(Base64.decodeBase64(this.orderId.getBytes(charset)), charset);
 		}
 		if (null != this.payerExists) {
-			this.payerExists = new String(Base64.decodeBase64(this.payerExists.getBytes()));
+			this.payerExists = new String(Base64.decodeBase64(this.payerExists.getBytes(charset)), charset);
 		}
 		if (null != this.payerReference) {
-			this.payerReference = new String(Base64.decodeBase64(this.payerReference.getBytes()));
+			this.payerReference = new String(Base64.decodeBase64(this.payerReference.getBytes(charset)), charset);
 		}
 		if (null != this.paymentReference) {
-			this.paymentReference = new String(Base64.decodeBase64(this.paymentReference.getBytes()));
+			this.paymentReference = new String(Base64.decodeBase64(this.paymentReference.getBytes(charset)), charset);
 		}
 		if (null != this.productId) {
-			this.productId = new String(Base64.decodeBase64(this.productId.getBytes()));
+			this.productId = new String(Base64.decodeBase64(this.productId.getBytes(charset)), charset);
 		}
 		if (null != this.returnTss) {
-			this.returnTss = new String(Base64.decodeBase64(this.returnTss.getBytes()));
+			this.returnTss = new String(Base64.decodeBase64(this.returnTss.getBytes(charset)), charset);
 		}
 		if (null != this.shippingCode) {
-			this.shippingCode = new String(Base64.decodeBase64(this.shippingCode.getBytes()));
+			this.shippingCode = new String(Base64.decodeBase64(this.shippingCode.getBytes(charset)), charset);
 		}
 		if (null != this.shippingCountry) {
-			this.shippingCountry = new String(Base64.decodeBase64(this.shippingCountry.getBytes()));
+			this.shippingCountry = new String(Base64.decodeBase64(this.shippingCountry.getBytes(charset)), charset);
 		}
 		if (null != this.timeStamp) {
-			this.timeStamp = new String(Base64.decodeBase64(this.timeStamp.getBytes()));
+			this.timeStamp = new String(Base64.decodeBase64(this.timeStamp.getBytes(charset)), charset);
 		}
 		if (null != this.variableReference) {
-			this.variableReference = new String(Base64.decodeBase64(this.variableReference.getBytes()));
+			this.variableReference = new String(Base64.decodeBase64(this.variableReference.getBytes(charset)));
 		}
 
 		if (null != this.supplementaryData) {
 			Map<String, String> supplementaryDataMap = new HashMap<String, String>();
 			for (String key : supplementaryData.keySet()) {
-				supplementaryDataMap.put(key, new String(Base64.decodeBase64(supplementaryData.get(key).getBytes())));
+				supplementaryDataMap.put(key, new String(Base64.decodeBase64(supplementaryData.get(key).getBytes(charset)), charset));
 			}
 			this.supplementaryData.putAll(supplementaryDataMap);
 		}
