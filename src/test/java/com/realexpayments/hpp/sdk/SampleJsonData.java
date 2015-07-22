@@ -29,7 +29,7 @@ public class SampleJsonData {
 	public static final String SECRET = "mysecret";
 	public static final String ACCOUNT = "myAccount";
 	public static final long AMOUNT = 100;
-	public static final String COMMENT_ONE = "Comment One";
+	public static final String COMMENT_ONE = "a-z A-Z 0-9 ' \", + “” ._ - & \\ / @ ! ? % ( )* : £ $ & € # [ ] | = ;ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷ø¤ùúûüýþÿŒŽšœžŸ¥";
 	public static final String COMMENT_TWO = "Comment Two";
 
 	//valid JSON constants HppRequest
