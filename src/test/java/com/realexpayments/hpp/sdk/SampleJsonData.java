@@ -54,6 +54,7 @@ public class SampleJsonData {
 	public static final String SHIPPING_CODE = "56|987";
 	public static final String SHIPPING_COUNTRY = "IRELAND";
 	public static final String VARIABLE_REFERENCE = "VariableRef";
+	public static final String VALIDATE_CARD_ONLY = "0";
 
 	//valid JSON constants HppResponse
 	public static final String ORDER_ID_RESPONSE = "ORD453-11";
@@ -157,7 +158,8 @@ public class SampleJsonData {
 				.addReturnTss(RETURN_TSS.equals(Flag.TRUE.getFlag()))
 				.addShippingCode(SHIPPING_CODE)
 				.addShippingCountry(SHIPPING_COUNTRY)
-				.addVariableReference(VARIABLE_REFERENCE);
+				.addVariableReference(VARIABLE_REFERENCE)
+				.addValidateCardOnly(VALIDATE_CARD_ONLY);
 
 		hppRequest.setSupplementaryData(SUPPLEMENTARY_DATA);
 
@@ -245,6 +247,9 @@ public class SampleJsonData {
 			Assert.assertNotNull("Hash failed to generate", hppRequestConverted.getHash());
 			Assert.assertNotNull("Order ID failed to generate", hppRequestConverted.getOrderId());
 		}
+
+		Assert.assertEquals("Json conversion incorrect Validate Card Only", hppRequestExpected.getValidateCardOnly(),
+				hppRequestConverted.getValidateCardOnly());
 
 	}
 

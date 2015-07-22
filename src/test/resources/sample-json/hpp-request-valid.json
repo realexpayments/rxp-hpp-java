@@ -23,5 +23,6 @@
    "OFFER_SAVE_CARD":"0",
    "PAYER_REF":"PayerRef",
    "PMT_REF":"PaymentRef",
-   "PAYER_EXIST":"0"
+   "PAYER_EXIST":"0",
+   "VALIDATE_CARD_ONLY":"0"
 }

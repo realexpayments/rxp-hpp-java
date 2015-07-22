@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.realexpayments.hpp.sdk.utils.GenerationUtils;
+import com.realexpayments.hpp.sdk.validators.OtbAmount;
 
 /**
  * <p>
@@ -33,6 +34,7 @@ import com.realexpayments.hpp.sdk.utils.GenerationUtils;
  * 
  * @author markstanford
  */
+@OtbAmount
 public class HppRequest {
 
 	public enum Flag {
@@ -90,8 +92,9 @@ public class HppRequest {
 	/**
 	 * Total amount to authorise in the lowest unit of the currency – i.e. 100 euro would be entered as 10000. 
 	 * If there is no decimal in the currency (e.g. JPY Yen) then contact Realex Payments. No decimal points are allowed.
+	 * Amount should be set to 0 for OTB transactions (i.e. where validate card only is set to 1).
 	 */
-	@Size(min = 0, max = 11, message = "{hppRequest.amount.size}")
+	@Size(min = 1, max = 11, message = "{hppRequest.amount.size}")
 	@Pattern(regexp = "^[0-9]*$", message = "{hppRequest.amount.pattern}")
 	@JsonProperty("AMOUNT")
 	private String amount;
@@ -275,6 +278,14 @@ public class HppRequest {
 	 * Supplementary data to be sent to Realex Payments. This will be returned in the HPP response. 
 	 */
 	private Map<String, String> supplementaryData = new HashMap<String, String>();
+
+	/**
+	 * Used to identify an OTB transaction.
+	 */
+	@Size(min = 0, max = 1, message = "{hppRequest.validateCardOnly.size}")
+	@Pattern(regexp = "^[01]*$", message = "{hppRequest.validateCardOnly.pattern}")
+	@JsonProperty("VALIDATE_CARD_ONLY")
+	private String validateCardOnly;
 
 	/**
 	 * Getter for merchant ID.
@@ -502,6 +513,15 @@ public class HppRequest {
 	}
 
 	/**
+	 * Getter for validate card only. 
+	 * 
+	 * @return String
+	 */
+	public String getValidateCardOnly() {
+		return validateCardOnly;
+	}
+
+	/**
 	 * Setter for merchant ID.
 	 * 
 	 * @param merchantId
@@ -724,6 +744,15 @@ public class HppRequest {
 	 */
 	public void setPayerExists(String payerExists) {
 		this.payerExists = payerExists;
+	}
+
+	/**
+	 * Setter for validate card only.
+	 * 
+	 * @param validateCardOnly
+	 */
+	public void setValidateCardOnly(String validateCardOnly) {
+		this.validateCardOnly = validateCardOnly;
 	}
 
 	/**
@@ -1100,6 +1129,28 @@ public class HppRequest {
 	}
 
 	/**
+	 * Helper method to add validate card only flag.
+	 * 
+	 * @param validateCardOnly
+	 * @return HppRequest
+	 */
+	public HppRequest addValidateCardOnly(boolean validateCardOnly) {
+		this.validateCardOnly = validateCardOnly ? Flag.TRUE.getFlag() : Flag.FALSE.getFlag();
+		return this;
+	}
+
+	/**
+	 * Helper method to add validate card only flag.
+	 * 
+	 * @param validateCardOnly
+	 * @return HppRequest
+	 */
+	public HppRequest addValidateCardOnly(String validateCardOnly) {
+		this.validateCardOnly = validateCardOnly;
+		return this;
+	}
+
+	/**
 	 * Creates the security hash from a number of fields and the shared secret. 
 	 * 
 	 * @param secret
@@ -1247,6 +1298,9 @@ public class HppRequest {
 			}
 			this.supplementaryData.putAll(supplementaryDataMap);
 		}
+		if (null != this.validateCardOnly) {
+			this.validateCardOnly = new String(Base64.encodeBase64(this.validateCardOnly.getBytes(charset)));
+		}
 
 		return this;
 	}
@@ -1342,6 +1396,9 @@ public class HppRequest {
 				supplementaryDataMap.put(key, new String(Base64.decodeBase64(supplementaryData.get(key).getBytes(charset)), charset));
 			}
 			this.supplementaryData.putAll(supplementaryDataMap);
+		}
+		if (null != this.validateCardOnly) {
+			this.validateCardOnly = new String(Base64.decodeBase64(this.validateCardOnly.getBytes(charset)));
 		}
 
 		return this;

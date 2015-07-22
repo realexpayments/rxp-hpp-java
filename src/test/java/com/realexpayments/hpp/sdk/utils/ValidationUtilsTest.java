@@ -10,6 +10,7 @@ import org.junit.Test;
 import com.realexpayments.hpp.sdk.RealexValidationException;
 import com.realexpayments.hpp.sdk.SampleJsonData;
 import com.realexpayments.hpp.sdk.domain.HppRequest;
+import com.realexpayments.hpp.sdk.domain.HppRequest.Flag;
 
 /**
  * Test class for validating {@link HppRequest}.
@@ -224,8 +225,9 @@ public class ValidationUtilsTest {
 
 		try {
 			ValidationUtils.validate(hppRequest);
+			Assert.fail("This HppRequest should have validation errors.");
 		} catch (RealexValidationException ex) {
-			Assert.fail("This HppRequest should not have validation errors.");
+			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.amount.size"), ex.getValidationMessages().get(0));
 		}
 
 		char[] charsAtMax = new char[11];
@@ -256,6 +258,25 @@ public class ValidationUtilsTest {
 			Assert.fail("This HppRequest should have validation errors.");
 		} catch (RealexValidationException ex) {
 			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.amount.pattern"), ex.getValidationMessages().get(0));
+		}
+
+		hppRequest.setValidateCardOnly(Flag.TRUE.getFlag());
+		hppRequest.setAmount("0");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have validation errors.");
+		}
+
+		hppRequest.setValidateCardOnly(Flag.TRUE.getFlag());
+		hppRequest.setAmount("1");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+			Assert.fail("This HppRequest should have validation errors.");
+		} catch (RealexValidationException ex) {
+			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.amount.otb"), ex.getValidationMessages().get(0));
 		}
 	}
 
@@ -1367,6 +1388,58 @@ public class ValidationUtilsTest {
 			Assert.fail("This HppRequest should have validation errors.");
 		} catch (RealexValidationException ex) {
 			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.payerExists.pattern"), ex.getValidationMessages().get(0));
+		}
+	}
+
+	/**
+	 * Test validate card only. 
+	 */
+	@Test
+	public void validateCardOnlyTest() {
+		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
+		hppRequest.generateDefaults(SampleJsonData.SECRET);
+
+		hppRequest.setValidateCardOnly("");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setValidateCardOnly("0");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setValidateCardOnly("11");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+			Assert.fail("This HppRequest should have validation errors.");
+		} catch (RealexValidationException ex) {
+			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.validateCardOnly.size"), ex.getValidationMessages().get(0));
+		}
+
+		hppRequest.setValidateCardOnly("a");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+			Assert.fail("This HppRequest should have validation errors.");
+		} catch (RealexValidationException ex) {
+			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.validateCardOnly.pattern"), ex.getValidationMessages().get(0));
+		}
+
+		hppRequest.setValidateCardOnly("1");
+		hppRequest.setAmount("0");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
 		}
 	}
 
