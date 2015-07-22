@@ -463,6 +463,38 @@ public class ValidationUtilsTest {
 			Assert.fail("This HppRequest should have no validation errors.");
 		}
 
+		hppRequest.setAutoSettleFlag("ON");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setAutoSettleFlag("OFF");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setAutoSettleFlag("MULTI");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setAutoSettleFlag("MuLtI");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
 		hppRequest.setAutoSettleFlag("a");
 
 		try {
