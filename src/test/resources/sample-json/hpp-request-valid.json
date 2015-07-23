@@ -24,5 +24,6 @@
    "PAYER_REF":"PayerRef",
    "PMT_REF":"PaymentRef",
    "PAYER_EXIST":"0",
-   "VALIDATE_CARD_ONLY":"0"
+   "VALIDATE_CARD_ONLY":"0",
+   "DCC_ENABLE":"0"
 }

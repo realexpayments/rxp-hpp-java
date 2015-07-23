@@ -24,5 +24,6 @@
    "PAYER_REF":"UGF5ZXJSZWY=",
    "PMT_REF":"UGF5bWVudFJlZg==",
    "PAYER_EXIST":"MA==",
-   "VALIDATE_CARD_ONLY":"MA=="
+   "VALIDATE_CARD_ONLY":"MA==",
+   "DCC_ENABLE":"MA=="
 }

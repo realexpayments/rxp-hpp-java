@@ -55,6 +55,7 @@ public class SampleJsonData {
 	public static final String SHIPPING_COUNTRY = "IRELAND";
 	public static final String VARIABLE_REFERENCE = "VariableRef";
 	public static final String VALIDATE_CARD_ONLY = "0";
+	public static final String DCC_ENABLE = "0";
 
 	//valid JSON constants HppResponse
 	public static final String ORDER_ID_RESPONSE = "ORD453-11";
@@ -159,7 +160,8 @@ public class SampleJsonData {
 				.addShippingCode(SHIPPING_CODE)
 				.addShippingCountry(SHIPPING_COUNTRY)
 				.addVariableReference(VARIABLE_REFERENCE)
-				.addValidateCardOnly(VALIDATE_CARD_ONLY);
+				.addValidateCardOnly(VALIDATE_CARD_ONLY)
+				.addDccEnable(DCC_ENABLE);
 
 		hppRequest.setSupplementaryData(SUPPLEMENTARY_DATA);
 
@@ -250,6 +252,8 @@ public class SampleJsonData {
 
 		Assert.assertEquals("Json conversion incorrect Validate Card Only", hppRequestExpected.getValidateCardOnly(),
 				hppRequestConverted.getValidateCardOnly());
+		Assert.assertEquals("Json conversion incorrect DCC Enable", hppRequestExpected.getDccEnable(),
+				hppRequestConverted.getDccEnable());
 
 	}
 

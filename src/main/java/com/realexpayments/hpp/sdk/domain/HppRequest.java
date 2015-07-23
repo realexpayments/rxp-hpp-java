@@ -288,6 +288,14 @@ public class HppRequest {
 	private String validateCardOnly;
 
 	/**
+	 * Transaction level configuration to enable/disable a DCC request. (Only if the merchant is configured).
+	 */
+	@Size(min = 0, max = 1, message = "{hppRequest.dccEnable.size}")
+	@Pattern(regexp = "^[01]*$", message = "{hppRequest.dccEnable.pattern}")
+	@JsonProperty("DCC_ENABLE")
+	private String dccEnable;
+
+	/**
 	 * Getter for merchant ID.
 	 * 
 	 * @return String
@@ -522,6 +530,15 @@ public class HppRequest {
 	}
 
 	/**
+	 * Getter for DCC enable flag.
+	 * 
+	 * @return String
+	 */
+	public String getDccEnable() {
+		return dccEnable;
+	}
+
+	/**
 	 * Setter for merchant ID.
 	 * 
 	 * @param merchantId
@@ -753,6 +770,15 @@ public class HppRequest {
 	 */
 	public void setValidateCardOnly(String validateCardOnly) {
 		this.validateCardOnly = validateCardOnly;
+	}
+
+	/**
+	 * Setter for DCC enable flag.
+	 * 
+	 * @param dccEnable
+	 */
+	public void setDccEnable(String dccEnable) {
+		this.dccEnable = dccEnable;
 	}
 
 	/**
@@ -1151,6 +1177,28 @@ public class HppRequest {
 	}
 
 	/**
+	 * Helper method to add DCC enable flag.
+	 * 
+	 * @param dccEnable
+	 * @return HppRequest
+	 */
+	public HppRequest addDccEnable(boolean dccEnable) {
+		this.dccEnable = dccEnable ? Flag.TRUE.getFlag() : Flag.FALSE.getFlag();
+		return this;
+	}
+
+	/**
+	 * Helper method to add DCC enable flag.
+	 * 
+	 * @param dccEnable
+	 * @return HppRequest
+	 */
+	public HppRequest addDccEnable(String dccEnable) {
+		this.dccEnable = dccEnable;
+		return this;
+	}
+
+	/**
 	 * Creates the security hash from a number of fields and the shared secret. 
 	 * 
 	 * @param secret
@@ -1301,6 +1349,9 @@ public class HppRequest {
 		if (null != this.validateCardOnly) {
 			this.validateCardOnly = new String(Base64.encodeBase64(this.validateCardOnly.getBytes(charset)));
 		}
+		if (null != this.dccEnable) {
+			this.dccEnable = new String(Base64.encodeBase64(this.dccEnable.getBytes(charset)));
+		}
 
 		return this;
 	}
@@ -1399,6 +1450,9 @@ public class HppRequest {
 		}
 		if (null != this.validateCardOnly) {
 			this.validateCardOnly = new String(Base64.decodeBase64(this.validateCardOnly.getBytes(charset)));
+		}
+		if (null != this.dccEnable) {
+			this.dccEnable = new String(Base64.decodeBase64(this.dccEnable.getBytes(charset)));
 		}
 
 		return this;

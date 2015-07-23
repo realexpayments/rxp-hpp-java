@@ -1443,4 +1443,48 @@ public class ValidationUtilsTest {
 		}
 	}
 
+	/**
+	 * Test DCC enable. 
+	 */
+	@Test
+	public void dccEnableTest() {
+		HppRequest hppRequest = SampleJsonData.generateValidHppRequest();
+		hppRequest.generateDefaults(SampleJsonData.SECRET);
+
+		hppRequest.setDccEnable("");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setDccEnable("0");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setDccEnable("11");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+			Assert.fail("This HppRequest should have validation errors.");
+		} catch (RealexValidationException ex) {
+			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.dccEnable.size"), ex.getValidationMessages().get(0));
+		}
+
+		hppRequest.setDccEnable("a");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+			Assert.fail("This HppRequest should have validation errors.");
+		} catch (RealexValidationException ex) {
+			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.dccEnable.pattern"), ex.getValidationMessages().get(0));
+		}
+
+	}
+
 }

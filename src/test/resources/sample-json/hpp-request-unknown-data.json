@@ -28,5 +28,6 @@
    "UNKNOWN_3":"Unknown value 3",
    "UNKNOWN_4":"Unknown value 4",
    "PAYER_EXIST":"0",
-   "VALIDATE_CARD_ONLY":"0"
+   "VALIDATE_CARD_ONLY":"0",
+   "DCC_ENABLE":"0"
 }
