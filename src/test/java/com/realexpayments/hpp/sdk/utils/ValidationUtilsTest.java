@@ -1227,6 +1227,22 @@ public class ValidationUtilsTest {
 			Assert.fail("This HppRequest should have no validation errors.");
 		}
 
+		hppRequest.setOfferSaveCard("1");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setOfferSaveCard("0");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
 		hppRequest.setOfferSaveCard("11");
 
 		try {
@@ -1365,6 +1381,30 @@ public class ValidationUtilsTest {
 		hppRequest.generateDefaults(SampleJsonData.SECRET);
 
 		hppRequest.setPayerExists("");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setPayerExists("0");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setPayerExists("1");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setPayerExists("2");
 
 		try {
 			ValidationUtils.validate(hppRequest);
