@@ -1212,20 +1212,39 @@ public class HppRequest {
 		String orderId = null == this.orderId ? "" : this.orderId;
 		String amount = null == this.amount ? "" : this.amount;
 		String currency = null == this.currency ? "" : this.currency;
+		String payerReference = null == this.payerReference ? "" : this.payerReference;
+		String paymentReference = null == this.paymentReference ? "" : this.paymentReference;
 
-		//create String to hash
-		String toHash = new StringBuilder().append(timeStamp)
-				.append(".")
-				.append(merchantId)
-				.append(".")
-				.append(orderId)
-				.append(".")
-				.append(amount)
-				.append(".")
-				.append(currency)
-				.toString();
+		//create String to hash. Check for card storage enable flag to determine if Real Vault transaction 
+		StringBuilder toHash = new StringBuilder();
 
-		this.hash = GenerationUtils.generateHash(toHash, secret);
+		if (Flag.TRUE.getFlag().equals(cardStorageEnable)) {
+			toHash.append(timeStamp)
+					.append(".")
+					.append(merchantId)
+					.append(".")
+					.append(orderId)
+					.append(".")
+					.append(amount)
+					.append(".")
+					.append(currency)
+					.append(".")
+					.append(payerReference)
+					.append(".")
+					.append(paymentReference);
+		} else {
+			toHash.append(timeStamp)
+					.append(".")
+					.append(merchantId)
+					.append(".")
+					.append(orderId)
+					.append(".")
+					.append(amount)
+					.append(".")
+					.append(currency);
+		}
+
+		this.hash = GenerationUtils.generateHash(toHash.toString(), secret);
 
 		return this;
 	}

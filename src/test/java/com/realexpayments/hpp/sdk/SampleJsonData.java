@@ -24,6 +24,7 @@ public class SampleJsonData {
 	public static final String VALID_HPP_RESPONSE_ENCODED_JSON_PATH = "/sample-json/hpp-response-encoded-valid.json";
 	public static final String UNKNOWN_DATA_HPP_REQUEST_JSON_PATH = "/sample-json/hpp-request-unknown-data.json";
 	public static final String UNKNOWN_DATA_HPP_RESPONSE_JSON_PATH = "/sample-json/hpp-response-unknown-data.json";
+	public static final String VALID_HPP_REQUEST_CARD_STORAGE_JSON_PATH = "/sample-json/hpp-request-card-storage.json";
 
 	//valid JSON constants
 	public static final String SECRET = "mysecret";
@@ -123,8 +124,8 @@ public class SampleJsonData {
 	 * 
 	 * @return HppRequest
 	 */
-	public static HppRequest generateValidHppRequest() {
-		HppRequest hppRequest = generateValidHppRequestWithEmptyDefaults()
+	public static HppRequest generateValidHppRequest(boolean cardStorage) {
+		HppRequest hppRequest = generateValidHppRequestWithEmptyDefaults(cardStorage)
 				.addHash(HASH_REQUEST)
 				.addOrderId(ORDER_ID)
 				.addTimeStamp(TIMESTAMP);
@@ -137,7 +138,7 @@ public class SampleJsonData {
 	 * 
 	 * @return HppRequest
 	 */
-	public static HppRequest generateValidHppRequestWithEmptyDefaults() {
+	public static HppRequest generateValidHppRequestWithEmptyDefaults(boolean cardStorage) {
 		HppRequest hppRequest = new HppRequest().addAccount(ACCOUNT)
 				.addAmount(AMOUNT)
 				.addAutoSettleFlag(AUTO_SETTLE_FLAG.equals(Flag.TRUE.getFlag()))
@@ -162,6 +163,11 @@ public class SampleJsonData {
 				.addVariableReference(VARIABLE_REFERENCE)
 				.addValidateCardOnly(VALIDATE_CARD_ONLY)
 				.addDccEnable(DCC_ENABLE);
+
+		if (cardStorage) {
+			hppRequest.setCardStorageEnable(Flag.TRUE.getFlag());
+			hppRequest.setOfferSaveCard(Flag.TRUE.getFlag());
+		}
 
 		hppRequest.setSupplementaryData(SUPPLEMENTARY_DATA);
 

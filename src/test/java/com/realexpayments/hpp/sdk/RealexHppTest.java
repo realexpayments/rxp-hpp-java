@@ -29,7 +29,7 @@ public class RealexHppTest {
 	 */
 	@Test
 	public void requestToJsonSuccessTest() throws UnsupportedEncodingException {
-		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequestWithEmptyDefaults();
+		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequestWithEmptyDefaults(false);
 		String json = REALEX_HPP.requestToJson(hppRequestExpected);
 
 		HppRequest hppRequestConverted = REALEX_HPP.requestFromJson(json);
@@ -43,7 +43,7 @@ public class RealexHppTest {
 	 */
 	@Test
 	public void requestFromJsonEncodedSuccessTest() throws FileNotFoundException {
-		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequest();
+		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequest(false);
 		File file = new File(this.getClass().getResource(SampleJsonData.VALID_HPP_REQUEST_ENCODED_JSON_PATH).getPath());
 		String json = new Scanner(file, RealexHpp.ENCODING_CHARSET).useDelimiter("\\A").next();
 
@@ -58,8 +58,21 @@ public class RealexHppTest {
 	 */
 	@Test
 	public void requestFromJsonDecodedSuccessTest() throws FileNotFoundException {
-		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequest();
+		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequest(false);
 		File file = new File(this.getClass().getResource(SampleJsonData.VALID_HPP_REQUEST_JSON_PATH).getPath());
+		String json = new Scanner(file, RealexHpp.ENCODING_CHARSET).useDelimiter("\\A").next();
+
+		HppRequest hppRequestConverted = REALEX_HPP.requestFromJson(json, false);
+		SampleJsonData.checkValidHppRequest(hppRequestExpected, hppRequestConverted, false);
+	}
+
+	/**
+	 * Test converting card storage encoded JSON to {@link HppRequest}.
+	 */
+	@Test
+	public void requestFromJsonCardStorageSuccessTest() throws FileNotFoundException {
+		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequest(true);
+		File file = new File(this.getClass().getResource(SampleJsonData.VALID_HPP_REQUEST_CARD_STORAGE_JSON_PATH).getPath());
 		String json = new Scanner(file, RealexHpp.ENCODING_CHARSET).useDelimiter("\\A").next();
 
 		HppRequest hppRequestConverted = REALEX_HPP.requestFromJson(json, false);
