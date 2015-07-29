@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.realexpayments.hpp.sdk</groupId>
 	<artifactId>rxp-hpp-java</artifactId>
-	<version>0.1.2-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>Realex Payments HPP Java SDK</name>
 	<description>The official Realex Payments HPP Java SDK</description>
 	<url>http://www.realexpayments.com</url>
