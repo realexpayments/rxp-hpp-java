@@ -7,7 +7,7 @@
    "TIMESTAMP":"20990101120000",
    "SHA1HASH":"5d8f05abd618e50db4861a61cc940112786474cf",
    "AUTO_SETTLE_FLAG":"1",
-   "COMMENT1":"Comment One",
+   "COMMENT1":"a-z A-Z 0-9 ' \", + “” ._ - & \\ / @ ! ? % ( )* : £ $ & € # [ ] | = ;ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷ø¤ùúûüýþÿŒŽšœžŸ¥",
    "COMMENT2":"Comment Two",
    "RETURN_TSS":"0",
    "SHIPPING_CODE":"56|987",
@@ -27,5 +27,7 @@
    "UNKNOWN_2":"Unknown value 2",
    "UNKNOWN_3":"Unknown value 3",
    "UNKNOWN_4":"Unknown value 4",
-   "PAYER_EXIST":"0"
+   "PAYER_EXIST":"0",
+   "VALIDATE_CARD_ONLY":"0",
+   "DCC_ENABLE":"0"
 }

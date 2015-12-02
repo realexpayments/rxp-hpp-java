@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import org.junit.Test;
 
+import com.realexpayments.hpp.sdk.RealexHpp;
 import com.realexpayments.hpp.sdk.SampleJsonData;
 import com.realexpayments.hpp.sdk.domain.HppRequest;
 import com.realexpayments.hpp.sdk.domain.HppResponse;
@@ -23,7 +24,7 @@ public class JsonUtilsTest {
 	 */
 	@Test
 	public void toJsonHppRequestTest() {
-		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequest();
+		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequest(false);
 		String json = JsonUtils.toJson(hppRequestExpected);
 		HppRequest hppRequestConverted = JsonUtils.fromJsonHppRequest(json);
 		SampleJsonData.checkValidHppRequest(hppRequestExpected, hppRequestConverted, true);
@@ -38,8 +39,8 @@ public class JsonUtilsTest {
 	@Test
 	public void fromJsonHppRequestTest() throws FileNotFoundException {
 		File file = new File(this.getClass().getResource(SampleJsonData.VALID_HPP_REQUEST_JSON_PATH).getPath());
-		String json = new Scanner(file).useDelimiter("\\A").next();
-		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequest();
+		String json = new Scanner(file, RealexHpp.ENCODING_CHARSET).useDelimiter("\\A").next();
+		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequest(false);
 		HppRequest hppRequestConverted = JsonUtils.fromJsonHppRequest(json);
 		SampleJsonData.checkValidHppRequest(hppRequestExpected, hppRequestConverted, true);
 	}
@@ -52,8 +53,8 @@ public class JsonUtilsTest {
 	@Test
 	public void fromJsonHppRequestUnknownDataTest() throws FileNotFoundException {
 		File file = new File(this.getClass().getResource(SampleJsonData.UNKNOWN_DATA_HPP_REQUEST_JSON_PATH).getPath());
-		String json = new Scanner(file).useDelimiter("\\A").next();
-		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequest();
+		String json = new Scanner(file, RealexHpp.ENCODING_CHARSET).useDelimiter("\\A").next();
+		HppRequest hppRequestExpected = SampleJsonData.generateValidHppRequest(false);
 		HppRequest hppRequestConverted = JsonUtils.fromJsonHppRequest(json);
 		SampleJsonData.checkValidHppRequest(hppRequestExpected, hppRequestConverted, true);
 		SampleJsonData.checkValidHppRequestSupplementaryData(hppRequestConverted);
@@ -76,7 +77,7 @@ public class JsonUtilsTest {
 	@Test
 	public void fromJsonHppResponseTest() throws FileNotFoundException {
 		File file = new File(this.getClass().getResource(SampleJsonData.VALID_HPP_RESPONSE_JSON_PATH).getPath());
-		String json = new Scanner(file).useDelimiter("\\A").next();
+		String json = new Scanner(file, RealexHpp.ENCODING_CHARSET).useDelimiter("\\A").next();
 		HppResponse hppResponseExpected = SampleJsonData.generateValidHppResponse();
 		HppResponse hppResponseConverted = JsonUtils.fromJsonHppResponse(json);
 		SampleJsonData.checkValidHppResponse(hppResponseExpected, hppResponseConverted);
@@ -90,7 +91,7 @@ public class JsonUtilsTest {
 	@Test
 	public void fromJsonHppResponseUnknownDataTest() throws FileNotFoundException {
 		File file = new File(this.getClass().getResource(SampleJsonData.UNKNOWN_DATA_HPP_RESPONSE_JSON_PATH).getPath());
-		String json = new Scanner(file).useDelimiter("\\A").next();
+		String json = new Scanner(file, RealexHpp.ENCODING_CHARSET).useDelimiter("\\A").next();
 		HppResponse hppResponseExpected = SampleJsonData.generateValidHppResponse();
 		HppResponse hppResponseConverted = JsonUtils.fromJsonHppResponse(json);
 		SampleJsonData.checkValidHppResponse(hppResponseExpected, hppResponseConverted);

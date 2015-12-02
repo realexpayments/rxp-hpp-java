@@ -43,7 +43,7 @@ public class RealexHpp {
 	/**
 	 * Character set to use for encoding/decoding.
 	 */
-	private static final String ENCODING_CHARSET = "UTF-8";
+	public static final String ENCODING_CHARSET = "UTF-8";
 
 	/**
 	 * The shared secret issued by Realex. Used to create the SHA-1 hash in the request and

@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.realexpayments.hpp.sdk.utils.GenerationUtils;
+import com.realexpayments.hpp.sdk.validators.OtbAmount;
 
 /**
  * <p>
@@ -33,6 +34,7 @@ import com.realexpayments.hpp.sdk.utils.GenerationUtils;
  * 
  * @author markstanford
  */
+@OtbAmount
 public class HppRequest {
 
 	public enum Flag {
@@ -90,8 +92,9 @@ public class HppRequest {
 	/**
 	 * Total amount to authorise in the lowest unit of the currency – i.e. 100 euro would be entered as 10000. 
 	 * If there is no decimal in the currency (e.g. JPY Yen) then contact Realex Payments. No decimal points are allowed.
+	 * Amount should be set to 0 for OTB transactions (i.e. where validate card only is set to 1).
 	 */
-	@Size(min = 0, max = 11, message = "{hppRequest.amount.size}")
+	@Size(min = 1, max = 11, message = "{hppRequest.amount.size}")
 	@Pattern(regexp = "^[0-9]*$", message = "{hppRequest.amount.pattern}")
 	@JsonProperty("AMOUNT")
 	private String amount;
@@ -127,7 +130,7 @@ public class HppRequest {
 	 * This option can be used if a merchant wishes to delay the payment until after the goods have been shipped. 
 	 * Transactions can be settled for up to 115% of the original amount and must be settled within a certain period of time agreed with your issuing bank.
 	 */
-	@Pattern(regexp = "^on*|^off$|^*$|^multi$|^1$|^0$", message = "{hppRequest.autoSettleFlag.pattern}")
+	@Pattern(regexp = "(?i)^on*|^off$|^*$|^multi$|^1$|^0$", message = "{hppRequest.autoSettleFlag.pattern}")
 	@JsonProperty("AUTO_SETTLE_FLAG")
 	private String autoSettleFlag;
 
@@ -275,6 +278,22 @@ public class HppRequest {
 	 * Supplementary data to be sent to Realex Payments. This will be returned in the HPP response. 
 	 */
 	private Map<String, String> supplementaryData = new HashMap<String, String>();
+
+	/**
+	 * Used to identify an OTB transaction.
+	 */
+	@Size(min = 0, max = 1, message = "{hppRequest.validateCardOnly.size}")
+	@Pattern(regexp = "^[01]*$", message = "{hppRequest.validateCardOnly.pattern}")
+	@JsonProperty("VALIDATE_CARD_ONLY")
+	private String validateCardOnly;
+
+	/**
+	 * Transaction level configuration to enable/disable a DCC request. (Only if the merchant is configured).
+	 */
+	@Size(min = 0, max = 1, message = "{hppRequest.dccEnable.size}")
+	@Pattern(regexp = "^[01]*$", message = "{hppRequest.dccEnable.pattern}")
+	@JsonProperty("DCC_ENABLE")
+	private String dccEnable;
 
 	/**
 	 * Getter for merchant ID.
@@ -502,6 +521,24 @@ public class HppRequest {
 	}
 
 	/**
+	 * Getter for validate card only. 
+	 * 
+	 * @return String
+	 */
+	public String getValidateCardOnly() {
+		return validateCardOnly;
+	}
+
+	/**
+	 * Getter for DCC enable flag.
+	 * 
+	 * @return String
+	 */
+	public String getDccEnable() {
+		return dccEnable;
+	}
+
+	/**
 	 * Setter for merchant ID.
 	 * 
 	 * @param merchantId
@@ -724,6 +761,24 @@ public class HppRequest {
 	 */
 	public void setPayerExists(String payerExists) {
 		this.payerExists = payerExists;
+	}
+
+	/**
+	 * Setter for validate card only.
+	 * 
+	 * @param validateCardOnly
+	 */
+	public void setValidateCardOnly(String validateCardOnly) {
+		this.validateCardOnly = validateCardOnly;
+	}
+
+	/**
+	 * Setter for DCC enable flag.
+	 * 
+	 * @param dccEnable
+	 */
+	public void setDccEnable(String dccEnable) {
+		this.dccEnable = dccEnable;
 	}
 
 	/**
@@ -1100,6 +1155,50 @@ public class HppRequest {
 	}
 
 	/**
+	 * Helper method to add validate card only flag.
+	 * 
+	 * @param validateCardOnly
+	 * @return HppRequest
+	 */
+	public HppRequest addValidateCardOnly(boolean validateCardOnly) {
+		this.validateCardOnly = validateCardOnly ? Flag.TRUE.getFlag() : Flag.FALSE.getFlag();
+		return this;
+	}
+
+	/**
+	 * Helper method to add validate card only flag.
+	 * 
+	 * @param validateCardOnly
+	 * @return HppRequest
+	 */
+	public HppRequest addValidateCardOnly(String validateCardOnly) {
+		this.validateCardOnly = validateCardOnly;
+		return this;
+	}
+
+	/**
+	 * Helper method to add DCC enable flag.
+	 * 
+	 * @param dccEnable
+	 * @return HppRequest
+	 */
+	public HppRequest addDccEnable(boolean dccEnable) {
+		this.dccEnable = dccEnable ? Flag.TRUE.getFlag() : Flag.FALSE.getFlag();
+		return this;
+	}
+
+	/**
+	 * Helper method to add DCC enable flag.
+	 * 
+	 * @param dccEnable
+	 * @return HppRequest
+	 */
+	public HppRequest addDccEnable(String dccEnable) {
+		this.dccEnable = dccEnable;
+		return this;
+	}
+
+	/**
 	 * Creates the security hash from a number of fields and the shared secret. 
 	 * 
 	 * @param secret
@@ -1113,20 +1212,39 @@ public class HppRequest {
 		String orderId = null == this.orderId ? "" : this.orderId;
 		String amount = null == this.amount ? "" : this.amount;
 		String currency = null == this.currency ? "" : this.currency;
+		String payerReference = null == this.payerReference ? "" : this.payerReference;
+		String paymentReference = null == this.paymentReference ? "" : this.paymentReference;
 
-		//create String to hash
-		String toHash = new StringBuilder().append(timeStamp)
-				.append(".")
-				.append(merchantId)
-				.append(".")
-				.append(orderId)
-				.append(".")
-				.append(amount)
-				.append(".")
-				.append(currency)
-				.toString();
+		//create String to hash. Check for card storage enable flag to determine if Real Vault transaction 
+		StringBuilder toHash = new StringBuilder();
 
-		this.hash = GenerationUtils.generateHash(toHash, secret);
+		if (Flag.TRUE.getFlag().equals(cardStorageEnable)) {
+			toHash.append(timeStamp)
+					.append(".")
+					.append(merchantId)
+					.append(".")
+					.append(orderId)
+					.append(".")
+					.append(amount)
+					.append(".")
+					.append(currency)
+					.append(".")
+					.append(payerReference)
+					.append(".")
+					.append(paymentReference);
+		} else {
+			toHash.append(timeStamp)
+					.append(".")
+					.append(merchantId)
+					.append(".")
+					.append(orderId)
+					.append(".")
+					.append(amount)
+					.append(".")
+					.append(currency);
+		}
+
+		this.hash = GenerationUtils.generateHash(toHash.toString(), secret);
 
 		return this;
 	}
@@ -1247,6 +1365,12 @@ public class HppRequest {
 			}
 			this.supplementaryData.putAll(supplementaryDataMap);
 		}
+		if (null != this.validateCardOnly) {
+			this.validateCardOnly = new String(Base64.encodeBase64(this.validateCardOnly.getBytes(charset)));
+		}
+		if (null != this.dccEnable) {
+			this.dccEnable = new String(Base64.encodeBase64(this.dccEnable.getBytes(charset)));
+		}
 
 		return this;
 	}
@@ -1342,6 +1466,12 @@ public class HppRequest {
 				supplementaryDataMap.put(key, new String(Base64.decodeBase64(supplementaryData.get(key).getBytes(charset)), charset));
 			}
 			this.supplementaryData.putAll(supplementaryDataMap);
+		}
+		if (null != this.validateCardOnly) {
+			this.validateCardOnly = new String(Base64.decodeBase64(this.validateCardOnly.getBytes(charset)));
+		}
+		if (null != this.dccEnable) {
+			this.dccEnable = new String(Base64.decodeBase64(this.dccEnable.getBytes(charset)));
 		}
 
 		return this;

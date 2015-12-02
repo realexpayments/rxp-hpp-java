@@ -24,12 +24,13 @@ public class SampleJsonData {
 	public static final String VALID_HPP_RESPONSE_ENCODED_JSON_PATH = "/sample-json/hpp-response-encoded-valid.json";
 	public static final String UNKNOWN_DATA_HPP_REQUEST_JSON_PATH = "/sample-json/hpp-request-unknown-data.json";
 	public static final String UNKNOWN_DATA_HPP_RESPONSE_JSON_PATH = "/sample-json/hpp-response-unknown-data.json";
+	public static final String VALID_HPP_REQUEST_CARD_STORAGE_JSON_PATH = "/sample-json/hpp-request-card-storage.json";
 
 	//valid JSON constants
 	public static final String SECRET = "mysecret";
 	public static final String ACCOUNT = "myAccount";
 	public static final long AMOUNT = 100;
-	public static final String COMMENT_ONE = "Comment One";
+	public static final String COMMENT_ONE = "a-z A-Z 0-9 ' \", + “” ._ - & \\ / @ ! ? % ( )* : £ $ & € # [ ] | = ;ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷ø¤ùúûüýþÿŒŽšœžŸ¥";
 	public static final String COMMENT_TWO = "Comment Two";
 
 	//valid JSON constants HppRequest
@@ -54,6 +55,8 @@ public class SampleJsonData {
 	public static final String SHIPPING_CODE = "56|987";
 	public static final String SHIPPING_COUNTRY = "IRELAND";
 	public static final String VARIABLE_REFERENCE = "VariableRef";
+	public static final String VALIDATE_CARD_ONLY = "0";
+	public static final String DCC_ENABLE = "0";
 
 	//valid JSON constants HppResponse
 	public static final String ORDER_ID_RESPONSE = "ORD453-11";
@@ -121,8 +124,8 @@ public class SampleJsonData {
 	 * 
 	 * @return HppRequest
 	 */
-	public static HppRequest generateValidHppRequest() {
-		HppRequest hppRequest = generateValidHppRequestWithEmptyDefaults()
+	public static HppRequest generateValidHppRequest(boolean cardStorage) {
+		HppRequest hppRequest = generateValidHppRequestWithEmptyDefaults(cardStorage)
 				.addHash(HASH_REQUEST)
 				.addOrderId(ORDER_ID)
 				.addTimeStamp(TIMESTAMP);
@@ -135,7 +138,7 @@ public class SampleJsonData {
 	 * 
 	 * @return HppRequest
 	 */
-	public static HppRequest generateValidHppRequestWithEmptyDefaults() {
+	public static HppRequest generateValidHppRequestWithEmptyDefaults(boolean cardStorage) {
 		HppRequest hppRequest = new HppRequest().addAccount(ACCOUNT)
 				.addAmount(AMOUNT)
 				.addAutoSettleFlag(AUTO_SETTLE_FLAG.equals(Flag.TRUE.getFlag()))
@@ -157,7 +160,14 @@ public class SampleJsonData {
 				.addReturnTss(RETURN_TSS.equals(Flag.TRUE.getFlag()))
 				.addShippingCode(SHIPPING_CODE)
 				.addShippingCountry(SHIPPING_COUNTRY)
-				.addVariableReference(VARIABLE_REFERENCE);
+				.addVariableReference(VARIABLE_REFERENCE)
+				.addValidateCardOnly(VALIDATE_CARD_ONLY)
+				.addDccEnable(DCC_ENABLE);
+
+		if (cardStorage) {
+			hppRequest.setCardStorageEnable(Flag.TRUE.getFlag());
+			hppRequest.setOfferSaveCard(Flag.TRUE.getFlag());
+		}
 
 		hppRequest.setSupplementaryData(SUPPLEMENTARY_DATA);
 
@@ -245,6 +255,11 @@ public class SampleJsonData {
 			Assert.assertNotNull("Hash failed to generate", hppRequestConverted.getHash());
 			Assert.assertNotNull("Order ID failed to generate", hppRequestConverted.getOrderId());
 		}
+
+		Assert.assertEquals("Json conversion incorrect Validate Card Only", hppRequestExpected.getValidateCardOnly(),
+				hppRequestConverted.getValidateCardOnly());
+		Assert.assertEquals("Json conversion incorrect DCC Enable", hppRequestExpected.getDccEnable(),
+				hppRequestConverted.getDccEnable());
 
 	}
 
