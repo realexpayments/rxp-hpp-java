@@ -294,6 +294,14 @@ public class HppRequest {
 	@Pattern(regexp = "^[01]*$", message = "{hppRequest.dccEnable.pattern}")
 	@JsonProperty("DCC_ENABLE")
 	private String dccEnable;
+	
+	/**
+	 * Override merchant configuration for fraud. (Only if the merchant is configured for fraud).
+	 */
+	@Size(min = 0, max = 7, message = "{hppRequest.hppFraudFilterMode.size}")
+	@Pattern(regexp = "^(ACTIVE|PASSIVE|OFF)*$", message = "{hppRequest.hppFraudFilterMode.pattern}")
+	@JsonProperty("HPP_FRAUDFILTER_MODE")
+	private String hppFraudFilterMode;
 
 	/**
 	 * Getter for merchant ID.
@@ -539,6 +547,15 @@ public class HppRequest {
 	}
 
 	/**
+	 * Getter for HPP fraud filter mode flag.
+	 * 
+	 * @return String
+	 */
+	public String getHppFraudFilterMode() {
+		return hppFraudFilterMode;
+	}
+	
+	/**
 	 * Setter for merchant ID.
 	 * 
 	 * @param merchantId
@@ -781,6 +798,15 @@ public class HppRequest {
 		this.dccEnable = dccEnable;
 	}
 
+	/**
+	 * Setter for HPP fraud filter mode flag.
+	 * 
+	 * @param hppFraudFilterMode
+	 */
+	public void setHppFraudFilterMode(String hppFraudFilterMode) {
+		this.hppFraudFilterMode = hppFraudFilterMode;
+	}
+	
 	/**
 	 * Helper method to add merchant ID.
 	 * 
@@ -1197,6 +1223,17 @@ public class HppRequest {
 		this.dccEnable = dccEnable;
 		return this;
 	}
+	
+	/**
+	 * Helper method to add HPP fraud filter mode flag.
+	 * 
+	 * @param hppFraudFilterMode
+	 * @return HppRequest
+	 */
+	public HppRequest addHppFraudFilterMode(String hppFraudFilterMode) {
+		this.hppFraudFilterMode = hppFraudFilterMode;
+		return this;
+	}	
 
 	/**
 	 * Creates the security hash from a number of fields and the shared secret. 
@@ -1214,6 +1251,7 @@ public class HppRequest {
 		String currency = null == this.currency ? "" : this.currency;
 		String payerReference = null == this.payerReference ? "" : this.payerReference;
 		String paymentReference = null == this.paymentReference ? "" : this.paymentReference;
+		String hppFraudFilterMode = null == this.hppFraudFilterMode ? "" : this.hppFraudFilterMode;
 
 		//create String to hash. Check for card storage enable flag to determine if Real Vault transaction 
 		StringBuilder toHash = new StringBuilder();
@@ -1232,6 +1270,12 @@ public class HppRequest {
 					.append(payerReference)
 					.append(".")
 					.append(paymentReference);
+			
+			if (!hppFraudFilterMode.equals("")) {
+				toHash.append(".")
+				.append(this.hppFraudFilterMode);
+			}
+				
 		} else {
 			toHash.append(timeStamp)
 					.append(".")
@@ -1242,6 +1286,11 @@ public class HppRequest {
 					.append(amount)
 					.append(".")
 					.append(currency);
+			
+			if (!hppFraudFilterMode.equals("")) {
+				toHash.append(".")
+				.append(this.hppFraudFilterMode);
+			}
 		}
 
 		this.hash = GenerationUtils.generateHash(toHash.toString(), secret);
@@ -1371,7 +1420,9 @@ public class HppRequest {
 		if (null != this.dccEnable) {
 			this.dccEnable = new String(Base64.encodeBase64(this.dccEnable.getBytes(charset)));
 		}
-
+		if (null != this.hppFraudFilterMode) {
+			this.hppFraudFilterMode = new String(Base64.encodeBase64(this.hppFraudFilterMode.getBytes(charset)));
+		}
 		return this;
 	}
 
@@ -1472,6 +1523,9 @@ public class HppRequest {
 		}
 		if (null != this.dccEnable) {
 			this.dccEnable = new String(Base64.decodeBase64(this.dccEnable.getBytes(charset)));
+		}
+		if (null != this.hppFraudFilterMode) {
+			this.hppFraudFilterMode = new String(Base64.decodeBase64(this.hppFraudFilterMode.getBytes(charset)));
 		}
 
 		return this;

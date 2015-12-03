@@ -20,6 +20,7 @@ public class HppRequestTest {
 	private static final String CURRENCY = "EUR";
 	private static final String PAYER_REFERENCE = "newpayer1";
 	private static final String PAYMENT_REFERENCE = "mycard1";
+	private static final String FRAUD_FILTER_MODE_ACTIVE = "ACTIVE";
 
 	/**
 	 * Test generating security hash.
@@ -62,4 +63,48 @@ public class HppRequestTest {
 		Assert.assertEquals("Card storage hash does not match expected.", expectedHash, actualHash);
 
 	}
+	
+	/**
+	 * Test generating security hash with HPP fraud filter mode.
+	 */
+	@Test
+	public void hashTestWithHppFraudFilterMode() {
+
+		HppRequest hppRequest = SampleJsonData.generateValidHppRequest(false);
+		hppRequest.setTimeStamp(TIMESTAMP);
+		hppRequest.setMerchantId(MERCHANT_ID);
+		hppRequest.setOrderId(ORDER_ID);
+		hppRequest.setAmount(AMOUNT);
+		hppRequest.setCurrency(CURRENCY);
+		hppRequest.setHppFraudFilterMode(FRAUD_FILTER_MODE_ACTIVE);
+
+		String expectedHash = "b7b3cbb60129a1c169a066afa09ce7cc843ff1c1";
+		String actualHash = hppRequest.hash("mysecret").getHash();
+
+		Assert.assertEquals("Card storage hash does not match expected.", expectedHash, actualHash);
+
+	}
+
+	/**
+	 * Test generating security hash for card store with HPP fraud filter mode.
+	 */
+	@Test
+	public void cardStoreHashTestWithHppFraudFilterMode() {
+
+		HppRequest hppRequest = SampleJsonData.generateValidHppRequest(true);
+		hppRequest.setTimeStamp(TIMESTAMP);
+		hppRequest.setMerchantId(MERCHANT_ID);
+		hppRequest.setOrderId(ORDER_ID);
+		hppRequest.setAmount(AMOUNT);
+		hppRequest.setCurrency(CURRENCY);
+		hppRequest.setPayerReference(PAYER_REFERENCE);
+		hppRequest.setPaymentReference(PAYMENT_REFERENCE);
+		hppRequest.setHppFraudFilterMode(FRAUD_FILTER_MODE_ACTIVE);
+
+		String expectedHash = "39f637a321da4ebc3a433ed327b2c2921ad58fdb";
+		String actualHash = hppRequest.hash("mysecret").getHash();
+
+		Assert.assertEquals("Card storage hash does not match expected.", expectedHash, actualHash);
+
+	}	
 }
