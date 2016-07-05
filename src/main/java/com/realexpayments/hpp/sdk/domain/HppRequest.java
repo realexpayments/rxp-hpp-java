@@ -1278,6 +1278,23 @@ public class HppRequest {
 	}
 
 	/**
+	 * Get hppSelectStoredCard
+	 * 
+	 * @return String hppSelectStoredCard
+	 */
+	public String getHppSelectStoredCard() {
+		return hppSelectStoredCard;
+	}
+
+	/**
+	 * Set hppSelectStoredCard
+	 * @param String hppSelectStoredCard
+	 */
+	public void setHppSelectStoredCard(String hppSelectStoredCard) {
+		this.hppSelectStoredCard = hppSelectStoredCard;
+	}
+
+	/**
 	 * Creates the security hash from a number of fields and the shared secret. 
 	 * 
 	 * @param secret
