@@ -1088,6 +1088,41 @@ public class ValidationUtilsTest {
 		} catch (RealexValidationException ex) {
 			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.language.pattern"), ex.getValidationMessages().get(0));
 		}
+
+		hppRequest.setLanguage("en_GB");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+		} catch (RealexValidationException ex) {
+			Assert.fail("This HppRequest should have no validation errors.");
+		}
+
+		hppRequest.setLanguage("en_");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+			Assert.fail("This HppRequest should have validation errors.");
+		} catch (RealexValidationException ex) {
+			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.language.pattern"), ex.getValidationMessages().get(0));
+		}
+
+		hppRequest.setLanguage("asd");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+			Assert.fail("This HppRequest should have validation errors.");
+		} catch (RealexValidationException ex) {
+			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.language.pattern"), ex.getValidationMessages().get(0));
+		}
+
+		hppRequest.setLanguage("en_BRG");
+
+		try {
+			ValidationUtils.validate(hppRequest);
+			Assert.fail("This HppRequest should have validation errors.");
+		} catch (RealexValidationException ex) {
+			Assert.assertEquals(VALIDATION_MESSAGES.getString("hppRequest.language.pattern"), ex.getValidationMessages().get(0));
+		}
 	}
 
 	/**
