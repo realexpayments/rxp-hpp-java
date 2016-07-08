@@ -21,6 +21,7 @@ public class HppRequestTest {
 	private static final String PAYER_REFERENCE = "newpayer1";
 	private static final String PAYMENT_REFERENCE = "mycard1";
 	private static final String FRAUD_FILTER_MODE_ACTIVE = "ACTIVE";
+	private static final String HPP_SELECT_STORED_CARD = "2b8de093-0241-4985-ad96-76ca0b26b478";
 
 	/**
 	 * Test generating security hash.
@@ -39,6 +40,46 @@ public class HppRequestTest {
 		String actualHash = hppRequest.hash("mysecret").getHash();
 
 		Assert.assertEquals("Card storage hash does not match expected.", expectedHash, actualHash);
+
+	}
+
+	/**
+	 * Test generating security hash when select stored card present.
+	 */
+	@Test
+	public void hppSelectStoredCardShouldOverridePayerRef() {
+
+		HppRequest hppRequest = SampleJsonData.generateValidHppRequest(false);
+		hppRequest.setPayerReference(PAYER_REFERENCE);
+
+		HppRequest hppRequest2 = SampleJsonData.generateValidHppRequest(false);
+		hppRequest2.setPayerReference(PAYER_REFERENCE);
+		hppRequest2.addHppSelectStoredCard(HPP_SELECT_STORED_CARD);
+
+		String hash1 = hppRequest.hash("mysecret").getHash();
+		String hash2 = hppRequest2.hash("mysecret").getHash();
+
+		Assert.assertNotEquals(hash1, hash2);
+
+	}
+
+	/**
+	 * Test generating security hash when select stored card present but an empty string.
+	 */
+	@Test
+	public void hppSelectStoredCardEmptyStringShouldNotOverridePayerRef() {
+
+		HppRequest hppRequest = SampleJsonData.generateValidHppRequest(false);
+		hppRequest.setPayerReference(PAYER_REFERENCE);
+
+		HppRequest hppRequest2 = SampleJsonData.generateValidHppRequest(false);
+		hppRequest2.setPayerReference(PAYER_REFERENCE);
+		hppRequest2.addHppSelectStoredCard("");
+
+		String hash1 = hppRequest.hash("mysecret").getHash();
+		String hash2 = hppRequest2.hash("mysecret").getHash();
+
+		Assert.assertEquals(hash1, hash2);
 
 	}
 
@@ -63,7 +104,7 @@ public class HppRequestTest {
 		Assert.assertEquals("Card storage hash does not match expected.", expectedHash, actualHash);
 
 	}
-	
+
 	/**
 	 * Test generating security hash with HPP fraud filter mode.
 	 */
@@ -106,5 +147,5 @@ public class HppRequestTest {
 
 		Assert.assertEquals("Card storage hash does not match expected.", expectedHash, actualHash);
 
-	}	
+	}
 }
