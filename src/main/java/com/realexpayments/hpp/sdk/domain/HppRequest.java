@@ -1278,12 +1278,34 @@ public class HppRequest {
 	}
 
 	/**
+	 * Get hppSelectStoredCard
+	 * 
+	 * @return String hppSelectStoredCard
+	 */
+	public String getHppSelectStoredCard() {
+		return hppSelectStoredCard;
+	}
+
+	/**
+	 * Set hppSelectStoredCard
+	 * @param String hppSelectStoredCard
+	 */
+	public void setHppSelectStoredCard(String hppSelectStoredCard) {
+		this.hppSelectStoredCard = hppSelectStoredCard;
+	}
+
+	/**
 	 * Creates the security hash from a number of fields and the shared secret. 
 	 * 
 	 * @param secret
 	 * @return HppRequest
 	 */
 	public HppRequest hash(String secret) {
+
+		// Override payerRef with hppSelectStoredCard if present.
+		if (this.hppSelectStoredCard != null && !"".equalsIgnoreCase(this.hppSelectStoredCard)) {
+			this.payerReference = this.hppSelectStoredCard;
+		}
 
 		//check for any null values and set them to empty string for hashing
 		String timeStamp = null == this.timeStamp ? "" : this.timeStamp;
