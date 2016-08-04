@@ -224,7 +224,7 @@ public class HppRequest {
 	 * Used to set what language HPP is displayed in. Currently HPP is available in English, Spanish and German, with other languages to follow. 
 	 * If the field is not sent in, the default language is the language that is set in your account configuration. This can be set by your account manager.
 	 */
-	@Pattern(regexp = "^[a-zA-Z]{2}$|^[a-zA-Z]{0}$", message = "{hppRequest.language.pattern}")
+	@Pattern(regexp = "^[a-zA-Z]{2}(_([a-zA-Z]{2}){1})?$|^$", message = "{hppRequest.language.pattern}")
 	@JsonProperty("HPP_LANG")
 	private String language;
 
