@@ -28,7 +28,7 @@ HppRequest request = new HppRequest()
  						.addMerchantId("merchantId");
 
 RealexHpp realexHpp = new RealexHpp("mySecret");
-String requestJson = realexHpp.requestToJson(hppRequest);
+String requestJson = realexHpp.requestToJson(request);
 ```
 ### Consuming Response JSON from Realex JS SDK
 ```java
