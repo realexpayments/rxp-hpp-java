@@ -11,6 +11,8 @@ import org.apache.commons.codec.binary.Base64;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.realexpayments.hpp.sdk.utils.GenerationUtils;
 import com.realexpayments.hpp.sdk.validators.OtbAmount;
@@ -44,7 +46,7 @@ public class HppRequest {
 		/**
 		 * The flag String value 
 		 */
-		private String flag;
+		private final String flag;
 
 		/**
 		 * Flag constructor
@@ -222,7 +224,7 @@ public class HppRequest {
 	 * Used to set what language HPP is displayed in. Currently HPP is available in English, Spanish and German, with other languages to follow. 
 	 * If the field is not sent in, the default language is the language that is set in your account configuration. This can be set by your account manager.
 	 */
-	@Pattern(regexp = "^[a-zA-Z]{2}$|^[a-zA-Z]{0}$", message = "{hppRequest.language.pattern}")
+	@Pattern(regexp = "^[a-zA-Z]{2}(_([a-zA-Z]{2}){1})?$|^$", message = "{hppRequest.language.pattern}")
 	@JsonProperty("HPP_LANG")
 	private String language;
 
@@ -294,6 +296,32 @@ public class HppRequest {
 	@Pattern(regexp = "^[01]*$", message = "{hppRequest.dccEnable.pattern}")
 	@JsonProperty("DCC_ENABLE")
 	private String dccEnable;
+
+	/**
+	 * Override merchant configuration for fraud. (Only if the merchant is configured for fraud).
+	 */
+	@Size(min = 0, max = 7, message = "{hppRequest.hppFraudFilterMode.size}")
+	@Pattern(regexp = "^(ACTIVE|PASSIVE|OFF)*$", message = "{hppRequest.hppFraudFilterMode.pattern}")
+	@JsonProperty("HPP_FRAUDFILTER_MODE")
+	private String hppFraudFilterMode;
+
+	/**
+	 * The HPP Version. To use HPP Card Management select HPP_VERSION = 2.
+	 */
+	@Size(min = 0, max = 1, message = "{hppRequest.hppVersion.size}")
+	@Pattern(regexp = "^[1-2]*$", message = "{hppRequest.hppVersion.pattern}")
+	@JsonProperty("HPP_VERSION")
+	@JsonInclude(Include.NON_EMPTY)
+	private String hppVersion;
+
+	/**
+	 * The payer reference. If this flag is received, HPP will retrieve a list of the payment methods saved for that payer.
+	 */
+	@Size(min = 0, max = 50, message = "{hppRequest.hppSelectStoredCard.size}")
+	@Pattern(regexp = "^[a-zA-Z0-9\\_\\-.\\s]*$", message = "{hppRequest.hppSelectStoredCard.pattern}")
+	@JsonProperty("HPP_SELECT_STORED_CARD")
+	@JsonInclude(Include.NON_EMPTY)
+	private String hppSelectStoredCard;
 
 	/**
 	 * Getter for merchant ID.
@@ -539,6 +567,15 @@ public class HppRequest {
 	}
 
 	/**
+	 * Getter for HPP fraud filter mode flag.
+	 * 
+	 * @return String
+	 */
+	public String getHppFraudFilterMode() {
+		return hppFraudFilterMode;
+	}
+
+	/**
 	 * Setter for merchant ID.
 	 * 
 	 * @param merchantId
@@ -779,6 +816,15 @@ public class HppRequest {
 	 */
 	public void setDccEnable(String dccEnable) {
 		this.dccEnable = dccEnable;
+	}
+
+	/**
+	 * Setter for HPP fraud filter mode flag.
+	 * 
+	 * @param hppFraudFilterMode
+	 */
+	public void setHppFraudFilterMode(String hppFraudFilterMode) {
+		this.hppFraudFilterMode = hppFraudFilterMode;
 	}
 
 	/**
@@ -1199,12 +1245,67 @@ public class HppRequest {
 	}
 
 	/**
+	 * Helper method to add HPP fraud filter mode flag.
+	 * 
+	 * @param hppFraudFilterMode
+	 * @return HppRequest
+	 */
+	public HppRequest addHppFraudFilterMode(String hppFraudFilterMode) {
+		this.hppFraudFilterMode = hppFraudFilterMode;
+		return this;
+	}
+
+	/**
+	 * Helper method to add HPP Version flag.
+	 * 
+	 * @param hppVersion
+	 * @return HppRequest
+	 */
+	public HppRequest addHppVersion(String hppVersion) {
+		this.hppVersion = hppVersion;
+		return this;
+	}
+
+	/**
+	 * Helper method to add HPP Select stored card.
+	 * 
+	 * @param hppSelectStoredCard
+	 * @return HppRequest
+	 */
+	public HppRequest addHppSelectStoredCard(String hppSelectStoredCard) {
+		this.hppSelectStoredCard = hppSelectStoredCard;
+		return this;
+	}
+
+	/**
+	 * Get hppSelectStoredCard
+	 * 
+	 * @return String hppSelectStoredCard
+	 */
+	public String getHppSelectStoredCard() {
+		return hppSelectStoredCard;
+	}
+
+	/**
+	 * Set hppSelectStoredCard
+	 * @param String hppSelectStoredCard
+	 */
+	public void setHppSelectStoredCard(String hppSelectStoredCard) {
+		this.hppSelectStoredCard = hppSelectStoredCard;
+	}
+
+	/**
 	 * Creates the security hash from a number of fields and the shared secret. 
 	 * 
 	 * @param secret
 	 * @return HppRequest
 	 */
 	public HppRequest hash(String secret) {
+
+		// Override payerRef with hppSelectStoredCard if present.
+		if (this.hppSelectStoredCard != null && !"".equalsIgnoreCase(this.hppSelectStoredCard)) {
+			this.payerReference = this.hppSelectStoredCard;
+		}
 
 		//check for any null values and set them to empty string for hashing
 		String timeStamp = null == this.timeStamp ? "" : this.timeStamp;
@@ -1214,34 +1315,26 @@ public class HppRequest {
 		String currency = null == this.currency ? "" : this.currency;
 		String payerReference = null == this.payerReference ? "" : this.payerReference;
 		String paymentReference = null == this.paymentReference ? "" : this.paymentReference;
+		String hppFraudFilterMode = null == this.hppFraudFilterMode ? "" : this.hppFraudFilterMode;
 
 		//create String to hash. Check for card storage enable flag to determine if Real Vault transaction 
 		StringBuilder toHash = new StringBuilder();
 
-		if (Flag.TRUE.getFlag().equals(cardStorageEnable)) {
-			toHash.append(timeStamp)
-					.append(".")
-					.append(merchantId)
-					.append(".")
-					.append(orderId)
-					.append(".")
-					.append(amount)
-					.append(".")
-					.append(currency)
-					.append(".")
-					.append(payerReference)
-					.append(".")
-					.append(paymentReference);
+		if (Flag.TRUE.getFlag().equals(cardStorageEnable) || (hppSelectStoredCard != null && !hppSelectStoredCard.isEmpty())) {
+			toHash.append(timeStamp).append(".").append(merchantId).append(".").append(orderId).append(".").append(amount).append(".")
+					.append(currency).append(".").append(payerReference).append(".").append(paymentReference);
+
+			if (!hppFraudFilterMode.equals("")) {
+				toHash.append(".").append(this.hppFraudFilterMode);
+			}
+
 		} else {
-			toHash.append(timeStamp)
-					.append(".")
-					.append(merchantId)
-					.append(".")
-					.append(orderId)
-					.append(".")
-					.append(amount)
-					.append(".")
+			toHash.append(timeStamp).append(".").append(merchantId).append(".").append(orderId).append(".").append(amount).append(".")
 					.append(currency);
+
+			if (!hppFraudFilterMode.equals("")) {
+				toHash.append(".").append(this.hppFraudFilterMode);
+			}
 		}
 
 		this.hash = GenerationUtils.generateHash(toHash.toString(), secret);
@@ -1371,6 +1464,15 @@ public class HppRequest {
 		if (null != this.dccEnable) {
 			this.dccEnable = new String(Base64.encodeBase64(this.dccEnable.getBytes(charset)));
 		}
+		if (null != this.hppFraudFilterMode) {
+			this.hppFraudFilterMode = new String(Base64.encodeBase64(this.hppFraudFilterMode.getBytes(charset)));
+		}
+		if (null != this.hppVersion) {
+			this.hppVersion = new String(Base64.encodeBase64(this.hppVersion.getBytes(charset)));
+		}
+		if (null != this.hppSelectStoredCard) {
+			this.hppSelectStoredCard = new String(Base64.encodeBase64(this.hppSelectStoredCard.getBytes(charset)));
+		}
 
 		return this;
 	}
@@ -1472,6 +1574,15 @@ public class HppRequest {
 		}
 		if (null != this.dccEnable) {
 			this.dccEnable = new String(Base64.decodeBase64(this.dccEnable.getBytes(charset)));
+		}
+		if (null != this.hppFraudFilterMode) {
+			this.hppFraudFilterMode = new String(Base64.decodeBase64(this.hppFraudFilterMode.getBytes(charset)));
+		}
+		if (null != this.hppVersion) {
+			this.hppVersion = new String(Base64.decodeBase64(this.hppVersion.getBytes(charset)));
+		}
+		if (null != this.hppSelectStoredCard) {
+			this.hppSelectStoredCard = new String(Base64.decodeBase64(this.hppSelectStoredCard.getBytes(charset)));
 		}
 
 		return this;
