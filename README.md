@@ -23,9 +23,9 @@ compile "com.realexpayments.hpp.sdk:rxp-hpp-java:1.3.1"
 ### Creating Request JSON for Realex JS Library
 ```java
 HppRequest hppRequest = new HppRequest()
-						.addAmount(100)
- 						.addCurrency("EUR")
- 						.addMerchantId("merchantId");
+	.addAmount(100)
+	.addCurrency("EUR")
+	.addMerchantId("merchantId");
 
 RealexHpp realexHpp = new RealexHpp("mySecret");
 String requestJson = realexHpp.requestToJson(hppRequest);
