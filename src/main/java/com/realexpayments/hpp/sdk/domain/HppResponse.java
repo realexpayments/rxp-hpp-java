@@ -8,6 +8,8 @@ import org.apache.commons.codec.binary.Base64;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.realexpayments.hpp.sdk.utils.GenerationUtils;
@@ -18,6 +20,7 @@ import com.realexpayments.hpp.sdk.utils.GenerationUtils;
  * @author markstanford
  *
  */
+@JsonInclude(Include.NON_NULL)
 public class HppResponse {
 
 	/**
