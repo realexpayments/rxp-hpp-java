@@ -36,6 +36,7 @@ import com.realexpayments.hpp.sdk.validators.OtbAmount;
  * 
  * @author markstanford
  */
+@JsonInclude(Include.NON_NULL)
 @OtbAmount
 public class HppRequest {
 

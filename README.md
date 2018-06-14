@@ -9,23 +9,23 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.realexpayments.hpp.sdk</groupId>
   <artifactId>rxp-hpp-java</artifactId>
-  <version>1.3</version>
+  <version>1.3.2</version>
 </dependency>
 ```
 
 ### Gradle users
 Add this dependency to your project's build file:
 ```
-compile "com.realexpayments.hpp.sdk:rxp-hpp-java:1.3"
+compile "com.realexpayments.hpp.sdk:rxp-hpp-java:1.3.2"
 ```
 
 ## Usage
 ### Creating Request JSON for Realex JS Library
 ```java
 HppRequest hppRequest = new HppRequest()
-						.addAmount(100)
- 						.addCurrency("EUR")
- 						.addMerchantId("merchantId");
+	.addAmount(100)
+	.addCurrency("EUR")
+	.addMerchantId("merchantId");
 
 RealexHpp realexHpp = new RealexHpp("mySecret");
 String requestJson = realexHpp.requestToJson(hppRequest);
