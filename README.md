@@ -9,14 +9,14 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.realexpayments.hpp.sdk</groupId>
   <artifactId>rxp-hpp-java</artifactId>
-  <version>1.3.2</version>
+  <version>1.3.3</version>
 </dependency>
 ```
 
 ### Gradle users
 Add this dependency to your project's build file:
 ```
-compile "com.realexpayments.hpp.sdk:rxp-hpp-java:1.3.2"
+compile "com.realexpayments.hpp.sdk:rxp-hpp-java:1.3.3"
 ```
 
 ## Usage
