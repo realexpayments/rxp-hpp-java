@@ -67,15 +67,16 @@ public class RealexHpp {
 	 * <ul>
 	 * <li>Validates inputs</li>
 	 * <li>Generates defaults for security hash, order ID and time stamp (if required)</li>
-	 * <li>Base64 encodes inputs</li>
+	 * <li>Optional to Base64 encode inputs</li>
 	 * <li>Serialises request object to JSON</li>
 	 * </ul>
 	 * </p>
 	 * 
 	 * @param hppRequest
+	 * @param encoded <code>true</code> if the JSON values should be encoded.
 	 * @return String
 	 */
-	public String requestToJson(HppRequest hppRequest) {
+	public String requestToJson(HppRequest hppRequest, boolean encoded ) {
 
 		LOGGER.info("Converting HppRequest to JSON.");
 
@@ -92,7 +93,10 @@ public class RealexHpp {
 		//encode 
 		LOGGER.debug("Encoding object.");
 		try {
-			hppRequest = hppRequest.encode(ENCODING_CHARSET);
+			if(encoded){
+				hppRequest = hppRequest.encode(ENCODING_CHARSET);
+			}
+			
 		} catch (UnsupportedEncodingException ex) {
 			LOGGER.error("Exception encoding HPP request.", ex);
 			throw new RealexException("Exception encoding HPP request.", ex);
@@ -104,6 +108,26 @@ public class RealexHpp {
 
 		return json;
 	}
+	
+	/**
+	 * <p>
+	 * Method produces JSON from <code>HppRequest</code> object. 
+	 * Carries out the following actions:
+	 * <ul>
+	 * <li>Validates inputs</li>
+	 * <li>Generates defaults for security hash, order ID and time stamp (if required)</li>
+	 * <li>Optional to Base64 encode inputs</li>
+	 * <li>Serialises request object to JSON</li>
+	 * </ul>
+	 * </p>
+	 * 
+	 * @param hppRequest
+	 * @return String
+	 */
+	public String requestToJson(HppRequest hppRequest) {
+		return requestToJson(hppRequest, true);
+	}
+	
 
 	/**
 	 * <p>
