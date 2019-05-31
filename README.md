@@ -3,7 +3,7 @@ We've moved. We highly recommend you use the Global Payments Java SDK
 which supports all the features of this SDK and will benefit from all future releases:
 https://github.com/globalpayments/java-sdk
 
-With the latest update (1.3.4) this SDK supports the mandatory and recommend HPP fields for 3D Secure 2. Going forward it will only receieve ritical security updates, no further feature updates will be released beyond 3D Secure 2.
+With the latest update (1.3.4) this SDK supports the mandatory and recommend HPP fields for 3D Secure 2. Going forward it will only receive critical security updates, no further feature updates will be released beyond 3D Secure 2.
 # Realex Payments HPP Java SDK
 You can sign up for a Global Payments (formerly Realex Payments) account at https://developer.globalpay.com
 ## Requirements
