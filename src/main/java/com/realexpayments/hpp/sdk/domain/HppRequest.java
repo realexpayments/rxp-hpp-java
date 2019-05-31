@@ -52,7 +52,7 @@ public class HppRequest {
 		/**
 		 * Flag constructor
 		 * 
-		 * @param type
+		 * @param flag
 		 */
 		Flag(String flag) {
 			this.flag = flag;
@@ -324,6 +324,156 @@ public class HppRequest {
 	@JsonInclude(Include.NON_EMPTY)
 	private String hppSelectStoredCard;
 
+    /**
+     * Customer’s email address, including the full domain name. The field must be submitted in the form name@host.domain
+     */
+    @Size(max = 254, message = "{hppRequest.customerEmail.size}")
+    @Pattern(regexp = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,24})*$", message = "{hppRequest.customerEmail.pattern}")
+	@JsonProperty("HPP_CUSTOMER_EMAIL")
+    private String customerEmail;
+
+    /**
+     *
+     */
+    @Size(max = 15, message = "{hppRequest.customerPhoneMobile.size}")
+    @Pattern(regexp = "[0-9]*", message = "{hppRequest.customerPhoneMobile.pattern}")
+    @JsonProperty("HPP_CUSTOMER_PHONENUMBER_MOBILE")
+    private String customerPhoneMobile;
+
+    /**
+     * First line of the customer's billing address.
+     */
+    @Size(max = 50, message = "{hppRequest.billingAddress1.size}")
+    @Pattern(regexp = "^[a-zA-Z0-9\\/\\-\\_\\.\\s\\(\\):;'',\"{}]*$", message = "{hppRequest.billingAddress1.pattern}")
+    @JsonProperty("HPP_BILLING_STREET1")
+    private String billingAddress1;
+
+    /**
+     * Second line of the customer's billing address. Can be submitted as
+     * blank if not relevant for the particular customer.
+     */
+    @Size(max = 50, message = "{hppRequest.billingAddress2.size}")
+    @Pattern(regexp = "^[a-zA-Z0-9\\/\\-\\_\\.\\s\\(\\):;'',\"{}]*$", message = "{hppRequest.billingAddress2.pattern}")
+    @JsonProperty("HPP_BILLING_STREET2")
+    private String billingAddress2;
+
+    /**
+     * Third line of the customer's billing address. Can be submitted as
+     * blank if not relevant for the particular customer.
+     */
+    @Size(max = 50, message = "{hppRequest.billingAddress3.size}")
+    @Pattern(regexp = "^[a-zA-Z0-9\\/\\-\\_\\.\\s\\(\\):;'',\"{}]*$", message = "{hppRequest.billingAddress3.pattern}")
+    @JsonProperty("HPP_BILLING_STREET3")
+    private String billingAddress3;
+
+    /**
+     * The city of the customer's billing address.
+     */
+    @Size(max = 50, message = "{hppRequest.billingAddressCity.size}")
+    @Pattern(regexp = "^[a-zA-Z0-9\\/\\-\\_\\.\\s\\(\\):;'',\"{}]*$", message = "{hppRequest.billingAddressCity.pattern}")
+    @JsonProperty("HPP_BILLING_CITY")
+    private String billingAddressCity;
+
+    /**
+     * The state of the customer's billing address.
+     * Should be the country subdivision code defined in ISO 3166-2.
+     * Applicable for US and CA addresses.
+     */
+    @Size(max = 3, message = "{hppRequest.billingAddressState.size}")
+    @Pattern(regexp = "^[a-zA-Z0-9\\/\\-\\_\\.\\s\\(\\):;'',\"{}]*$", message = "{hppRequest.billingAddressState.pattern}")
+    @JsonProperty("HPP_BILLING_STATE")
+    private String billingAddressState;
+
+    /**
+     * ZIP or other postal code customer's billing address.
+     */
+    @Size(max = 16, message = "{hppRequest.billingAddressPostalCode.size}")
+    @Pattern(regexp = "^[a-zA-Z0-9-\\s]{1,16}$", message = "{hppRequest.billingAddressPostalCode.pattern}")
+    @JsonProperty("HPP_BILLING_POSTALCODE")
+    private String billingAddressPostalCode;
+
+    /**
+     * The country of the customer's billing address. ISO 3166-1 numeric three-digit country code.
+     */
+    @Size(max = 3, message = "{hppRequest.billingAddressCountry.size}")
+    @Pattern(regexp = "^[0-9]{3}$", message = "{hppRequest.billingAddressCountry.pattern}")
+    @JsonProperty("HPP_BILLING_COUNTRY")
+    private String billingAddressCountry;
+
+    /**
+     * First line of the customer's shipping address.
+     */
+    @Size(max = 50, message = "{hppRequest.shippingAddress1.size}")
+    @Pattern(regexp = "^[a-zA-Z0-9\\/\\-\\_\\.\\s\\(\\):;'',\"{}]*$", message = "{hppRequest.shippingAddress1.pattern}")
+    @JsonProperty("HPP_SHIPPING_STREET1")
+    private String shippingAddress1;
+
+    /**
+     * Second line of the customer's shipping address. Can be submitted as
+     * blank if not relevant for the particular customer.
+     */
+    @Size(max = 50, message = "{hppRequest.shippingAddress2.size}")
+    @Pattern(regexp = "^[a-zA-Z0-9\\/\\-\\_\\.\\s\\(\\):;'',\"{}]*$", message = "{hppRequest.shippingAddress2.pattern}")
+    @JsonProperty("HPP_SHIPPING_STREET2")
+    private String shippingAddress2;
+
+    /**
+     * Third line of the customer's shipping address. Can be submitted as
+     * blank if not relevant for the particular customer.
+     */
+    @Size(max = 50, message = "{hppRequest.shippingAddress3.size}")
+    @Pattern(regexp = "^[a-zA-Z0-9\\/\\-\\_\\.\\s\\(\\):;'',\"{}]*$", message = "{hppRequest.shippingAddress3.pattern}")
+    @JsonProperty("HPP_SHIPPING_STREET3")
+    private String shippingAddress3;
+
+    /**
+     * The city of the customer's shipping address.
+     */
+    @Size(max = 50, message = "{hppRequest.shippingAddressCity.size}")
+    @Pattern(regexp = "^[a-zA-Z0-9\\/\\-\\_\\.\\s\\(\\):;'',\"{}]*$", message = "{hppRequest.shippingAddressCity.pattern}")
+    @JsonProperty("HPP_SHIPPING_CITY")
+    private String shippingAddressCity;
+
+    /**
+     * The state of the customer's shipping address. Should be the country subdivision code defined in ISO 3166-2.
+     * Applicable for US and CA addresses.
+     */
+    @Size(max = 3, message = "{hppRequest.shippingAddressState.size}")
+    @Pattern(regexp = "^[a-zA-Z0-9\\/\\-\\_\\.\\s\\(\\):;'',\"{}]*$", message = "{hppRequest.shippingAddressState.pattern}")
+    @JsonProperty("HPP_SHIPPING_STATE")
+    private String shippingAddressState;
+
+    /**
+     * ZIP or other postal code customer's shipping address.
+     */
+    @Size(max = 16, message = "{hppRequest.shippingAddressPostalCode.size}")
+    @Pattern(regexp = "^[a-zA-Z0-9-\\s]{1,16}$", message = "{hppRequest.shippingAddressPostalCode.pattern}")
+    @JsonProperty("HPP_SHIPPING_POSTALCODE")
+    private String shippingAddressPostalCode;
+
+    /**
+     * The country of the customer's shipping address. ISO 3166-1 numeric three-digit country code.
+     */
+    @Size(max = 3, message = "{hppRequest.shippingAddressCountry.size}")
+    @Pattern(regexp = "^[0-9]{3}$", message = "{hppRequest.shippingAddressCountry.pattern}")
+    @JsonProperty("HPP_SHIPPING_COUNTRY")
+    private String shippingAddressCountry;
+
+    /**
+     * Indicates whether the shipping address matches the billing address.
+     */
+    @Pattern(regexp = "^(TRUE|FALSE)*$", message = "{hppRequest.shippingAddressMatchIndicator.pattern}")
+    @JsonProperty("HPP_ADDRESS_MATCH_INDICATOR")
+    private String shippingAddressMatchIndicator;
+
+    /**
+     * Indicates whether a challenge is requested for this transaction.
+     * The Issuer may override whatever preference is specified in this field.
+     */
+    @Pattern(regexp = "^(NO_PREFERENCE|NO_CHALLENGE_REQUESTED|CHALLENGE_PREFERRED|CHALLENGE_MANDATED)*$", message = "{hppRequest.challengeRequestIndicator.pattern}")
+    @JsonProperty("HPP_CHALLENGE_REQUEST_INDICATOR")
+    private String challengeRequestIndicator;
+
 	/**
 	 * Getter for merchant ID.
 	 * 
@@ -576,7 +726,169 @@ public class HppRequest {
 		return hppFraudFilterMode;
 	}
 
-	/**
+    /**
+     * Getter for customer email.
+     *
+     * @return String
+     */
+	public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    /**
+     * Getter for customer mobile phone
+     *
+     * @return String
+     */
+    public String getCustomerPhoneMobile() {
+        return customerPhoneMobile;
+    }
+
+    /**
+     * Getter for billing address 1
+     *
+     * @return String
+     */
+    public String getBillingAddress1() {
+        return billingAddress1;
+    }
+
+    /**
+     * Getter for billing address 2
+     *
+     * @return String
+     */
+    public String getBillingAddress2() {
+        return billingAddress2;
+    }
+
+    /**
+     * Getter for billing address 3
+     *
+     * @return String
+     */
+    public String getBillingAddress3() {
+        return billingAddress3;
+    }
+
+    /**
+     * Getter for billing address city
+     *
+     * @return String
+     */
+    public String getBillingAddressCity() {
+        return billingAddressCity;
+    }
+
+    /**
+     * Getter for billing address state
+     *
+     * @return String
+     */
+    public String getBillingAddressState() {
+        return billingAddressState;
+    }
+
+    /**
+     * Getter for billing address post code
+     *
+     * @return String
+     */
+    public String getBillingAddressPostalCode() {
+        return billingAddressPostalCode;
+    }
+
+    /**
+     * Getter for billing address country
+     *
+     * @return String
+     */
+    public String getBillingAddressCountry() {
+        return billingAddressCountry;
+    }
+
+    /**
+     * Getter for shipping address 1
+     *
+     * @return String
+     */
+    public String getShippingAddress1() {
+        return shippingAddress1;
+    }
+
+    /**
+     * Getter for shipping address 2
+     *
+     * @return String
+     */
+    public String getShippingAddress2() {
+        return shippingAddress2;
+    }
+
+    /**
+     * Getter for shipping address 3
+     *
+     * @return String
+     */
+    public String getShippingAddress3() {
+        return shippingAddress3;
+    }
+
+    /**
+     * Getter for shipping address city
+     *
+     * @return String
+     */
+    public String getShippingAddressCity() {
+        return shippingAddressCity;
+    }
+
+    /**
+     * Getter for shipping address state
+     *
+     * @return String
+     */
+    public String getShippingAddressState() {
+        return shippingAddressState;
+    }
+
+    /**
+     * Getter for shipping address post code
+     *
+     * @return String
+     */
+    public String getShippingAddressPostalCode() {
+        return shippingAddressPostalCode;
+    }
+
+    /**
+     * Getter for shipping address country
+     *
+     * @return String
+     */
+    public String getShippingAddressCountry() {
+        return shippingAddressCountry;
+    }
+
+    /**
+     * Getter for shipping address match indicator
+     *
+     * @return String
+     */
+    public String getShippingAddressMatchIndicator() {
+        return shippingAddressMatchIndicator;
+    }
+
+    /**
+     * Getter for challenge request indicator
+     *
+     * @return String
+     */
+    public String getChallengeRequestIndicator() {
+        return challengeRequestIndicator;
+    }
+
+    /**
 	 * Setter for merchant ID.
 	 * 
 	 * @param merchantId
@@ -828,7 +1140,169 @@ public class HppRequest {
 		this.hppFraudFilterMode = hppFraudFilterMode;
 	}
 
-	/**
+    /**
+     * Setter for customer email.
+     *
+     * @param customerEmail
+     */
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
+    }
+
+    /**
+     * Setter for customer mobile phone.
+     *
+     * @param customerPhoneMobile
+     */
+    public void setCustomerPhoneMobile(String customerPhoneMobile) {
+        this.customerPhoneMobile = customerPhoneMobile;
+    }
+
+    /**
+     * Setter for billing address 1.
+     *
+     * @param billingAddress1
+     */
+    public void setBillingAddress1(String billingAddress1) {
+        this.billingAddress1 = billingAddress1;
+    }
+
+    /**
+     * Setter for billing address 2.
+     *
+     * @param billingAddress2
+     */
+    public void setBillingAddress2(String billingAddress2) {
+        this.billingAddress2 = billingAddress2;
+    }
+
+    /**
+     * Setter for billing address 3.
+     *
+     * @param billingAddress3
+     */
+    public void setBillingAddress3(String billingAddress3) {
+        this.billingAddress3 = billingAddress3;
+    }
+
+    /**
+     * Setter for billing address city.
+     *
+     * @param billingAddressCity
+     */
+    public void setBillingAddressCity(String billingAddressCity) {
+        this.billingAddressCity = billingAddressCity;
+    }
+
+    /**
+     * Setter for billing address state.
+     *
+     * @param billingAddressState
+     */
+    public void setBillingAddressState(String billingAddressState) {
+        this.billingAddressState = billingAddressState;
+    }
+
+    /**
+     * Setter for billing address post code
+     *
+     * @param billingAddressPostalCode
+     */
+    public void setBillingAddressPostalCode(String billingAddressPostalCode) {
+        this.billingAddressPostalCode = billingAddressPostalCode;
+    }
+
+    /**
+     * Setter for billing address country
+     *
+     * @param billingAddressCountry
+     */
+    public void setBillingAddressCountry(String billingAddressCountry) {
+        this.billingAddressCountry = billingAddressCountry;
+    }
+
+    /**
+     * Setter for shipping address 1
+     *
+     * @param shippingAddress1
+     */
+    public void setShippingAddress1(String shippingAddress1) {
+        this.shippingAddress1 = shippingAddress1;
+    }
+
+    /**
+     * Setter for shipping address 2
+     *
+     * @param shippingAddress2
+     */
+    public void setShippingAddress2(String shippingAddress2) {
+        this.shippingAddress2 = shippingAddress2;
+    }
+
+    /**
+     * Setter for shipping address 3
+     *
+     * @param shippingAddress3
+     */
+    public void setShippingAddress3(String shippingAddress3) {
+        this.shippingAddress3 = shippingAddress3;
+    }
+
+    /**
+     * Setter for shipping address city
+     *
+     * @param shippingAddressCity
+     */
+    public void setShippingAddressCity(String shippingAddressCity) {
+        this.shippingAddressCity = shippingAddressCity;
+    }
+
+    /**
+     * Setter for shipping address state
+     *
+     * @param shippingAddressState
+     */
+    public void setShippingAddressState(String shippingAddressState) {
+        this.shippingAddressState = shippingAddressState;
+    }
+
+    /**
+     * Setter for shipping address post code
+     *
+     * @param shippingAddressPostalCode
+     */
+    public void setShippingAddressPostalCode(String shippingAddressPostalCode) {
+        this.shippingAddressPostalCode = shippingAddressPostalCode;
+    }
+
+    /**
+     * Setter for shipping address country
+     *
+     * @param shippingAddressCountry
+     */
+    public void setShippingAddressCountry(String shippingAddressCountry) {
+        this.shippingAddressCountry = shippingAddressCountry;
+    }
+
+    /**
+     * Setter for shipping address match indicator
+     *
+     * @param shippingAddressMatchIndicator
+     */
+    public void setShippingAddressMatchIndicator(String shippingAddressMatchIndicator) {
+        this.shippingAddressMatchIndicator = shippingAddressMatchIndicator;
+    }
+
+    /**
+     * Setter for challenge request indicator
+     *
+     * @param challengeRequestIndicator
+     */
+    public void setChallengeRequestIndicator(String challengeRequestIndicator) {
+        this.challengeRequestIndicator = challengeRequestIndicator;
+    }
+
+    /**
 	 * Helper method to add merchant ID.
 	 * 
 	 * @param merchantId
@@ -1278,6 +1752,204 @@ public class HppRequest {
 		return this;
 	}
 
+    /**
+     * Helper method to add customer email.
+     *
+     * @param customerEmail
+     * @return HppRequest
+     */
+    public HppRequest addCustomerEmail (String customerEmail) {
+        this.customerEmail = customerEmail;
+        return this;
+    }
+
+    /**
+     * Helper method to add customer mobile number.
+     *
+     * @param customerPhoneMobile
+     * @return HppRequest
+     */
+    public HppRequest addCustomerPhoneMobile (String customerPhoneMobile) {
+        this.customerPhoneMobile = customerPhoneMobile;
+        return this;
+    }
+
+    /**
+     * Helper method to add billing address 1.
+     *
+     * @param billingAddress1
+     * @return HppRequest
+     */
+    public HppRequest addBillingAddress1 (String billingAddress1) {
+        this.billingAddress1 = billingAddress1;
+        return this;
+    }
+
+    /**
+     * Helper method to add billing address 2.
+     *
+     * @param billingAddress2
+     * @return HppRequest
+     */
+    public HppRequest addBillingAddress2 (String billingAddress2) {
+        this.billingAddress2 = billingAddress2;
+        return this;
+    }
+
+    /**
+     * Helper method to add billing address 3.
+     *
+     * @param billingAddress3
+     * @return HppRequest
+     */
+    public HppRequest addBillingAddress3 (String billingAddress3) {
+        this.billingAddress3 = billingAddress3;
+        return this;
+    }
+
+    /**
+     * Helper method to add billing address city.
+     *
+     * @param billingAddressCity
+     * @return HppRequest
+     */
+    public HppRequest addBillingAddressCity (String billingAddressCity) {
+        this.billingAddressCity = billingAddressCity;
+        return this;
+    }
+
+    /**
+     * Helper method to add billing address state.
+     *
+     * @param billingAddressState
+     * @return HppRequest
+     */
+    public HppRequest addBillingAddressState (String billingAddressState) {
+        this.billingAddressState = billingAddressState;
+        return this;
+    }
+
+    /**
+     * Helper method to add billing address postal code.
+     *
+     * @param billingAddressPostalCode
+     * @return HppRequest
+     */
+    public HppRequest addBillingAddressPostalCode (String billingAddressPostalCode) {
+        this.billingAddressPostalCode = billingAddressPostalCode;
+        return this;
+    }
+
+    /**
+     * Helper method to add .
+     *
+     * @param billingAddressCountry
+     * @return HppRequest
+     */
+    public HppRequest addBillingAddressCountry (String billingAddressCountry) {
+        this.billingAddressCountry = billingAddressCountry;
+        return this;
+    }
+
+    /**
+     * Helper method to add shipping address 1.
+     *
+     * @param shippingAddress1
+     * @return HppRequest
+     */
+    public HppRequest addShippingAddress1 (String shippingAddress1) {
+        this.shippingAddress1 = shippingAddress1;
+        return this;
+    }
+
+    /**
+     * Helper method to add shipping address 2.
+     *
+     * @param shippingAddress2
+     * @return HppRequest
+     */
+    public HppRequest addShippingAddress2 (String shippingAddress2) {
+        this.shippingAddress2 = shippingAddress2;
+        return this;
+    }
+
+    /**
+     * Helper method to add shipping address 3.
+     *
+     * @param shippingAddress3
+     * @return HppRequest
+     */
+    public HppRequest addShippingAddress3 (String shippingAddress3) {
+        this.shippingAddress3 = shippingAddress3;
+        return this;
+    }
+
+    /**
+     * Helper method to add shipping address city.
+     *
+     * @param shippingAddressCity
+     * @return HppRequest
+     */
+    public HppRequest addsShippingAddressCity (String shippingAddressCity) {
+        this.shippingAddressCity = shippingAddressCity;
+        return this;
+    }
+
+    /**
+     * Helper method to add shipping address state.
+     *
+     * @param shippingAddressState
+     * @return HppRequest
+     */
+    public HppRequest addShippingAddressState (String shippingAddressState) {
+        this.shippingAddressState = shippingAddressState;
+        return this;
+    }
+
+    /**
+     * Helper method to add shipping address postal code.
+     *
+     * @param shippingAddressPostalCode
+     * @return HppRequest
+     */
+    public HppRequest addShippingAddressPostalCode (String shippingAddressPostalCode) {
+        this.shippingAddressPostalCode = shippingAddressPostalCode;
+        return this;
+    }
+
+    /**
+     * Helper method to add shipping address country.
+     *
+     * @param shippingAddressCountry
+     * @return HppRequest
+     */
+    public HppRequest addShippingAddressCountry (String shippingAddressCountry) {
+        this.shippingAddressCountry = shippingAddressCountry;
+        return this;
+    }
+
+    /**
+     * Helper method to add shipping address match indicator.
+     *
+     * @param shippingAddressMatchIndicator
+     * @return HppRequest
+     */
+    public HppRequest addShippingAddressMatchIndicator (String shippingAddressMatchIndicator) {
+        this.shippingAddressMatchIndicator = shippingAddressMatchIndicator;
+        return this;
+    }
+
+    /**
+     * Helper method to add challenge request indicator.
+     *
+     * @param challengeRequestIndicator
+     * @return HppRequest
+     */
+    public HppRequest addChallengeRequestIndicator (String challengeRequestIndicator) {
+        this.challengeRequestIndicator = challengeRequestIndicator;
+        return this;
+    }
+
 	/**
 	 * Get hppSelectStoredCard
 	 * 
@@ -1289,7 +1961,7 @@ public class HppRequest {
 
 	/**
 	 * Set hppSelectStoredCard
-	 * @param String hppSelectStoredCard
+	 * @param hppSelectStoredCard
 	 */
 	public void setHppSelectStoredCard(String hppSelectStoredCard) {
 		this.hppSelectStoredCard = hppSelectStoredCard;
@@ -1475,6 +2147,62 @@ public class HppRequest {
 			this.hppSelectStoredCard = new String(Base64.encodeBase64(this.hppSelectStoredCard.getBytes(charset)));
 		}
 
+		// 3DS2 FIELDS
+        if(null != this.customerEmail) {
+            this.customerEmail = new String(Base64.encodeBase64(this.customerEmail.getBytes(charset)));
+        }
+        if(null != this.customerPhoneMobile) {
+            this.customerPhoneMobile = new String(Base64.encodeBase64(this.customerPhoneMobile.getBytes(charset)));
+        }
+        if(null != this.billingAddress1) {
+            this.billingAddress1 = new String(Base64.encodeBase64(this.billingAddress1.getBytes(charset)));
+        }
+        if(null != this.billingAddress2) {
+            this.billingAddress2 = new String(Base64.encodeBase64(this.billingAddress2.getBytes(charset)));
+        }
+        if(null != this.billingAddress3) {
+            this.billingAddress3 = new String(Base64.encodeBase64(this.billingAddress3.getBytes(charset)));
+        }
+        if(null != this.billingAddressCity) {
+            this.billingAddressCity = new String(Base64.encodeBase64(this.billingAddressCity.getBytes(charset)));
+        }
+        if(null != this.billingAddressState) {
+            this.billingAddressState = new String(Base64.encodeBase64(this.billingAddressState.getBytes(charset)));
+        }
+        if(null != this.billingAddressPostalCode) {
+            this.billingAddressPostalCode = new String(Base64.encodeBase64(this.billingAddressPostalCode.getBytes(charset)));
+        }
+        if(null != this.billingAddressCountry) {
+            this.billingAddressCountry = new String(Base64.encodeBase64(this.billingAddressCountry.getBytes(charset)));
+        }
+        if(null != this.shippingAddress1) {
+            this.shippingAddress1 = new String(Base64.encodeBase64(this.shippingAddress1.getBytes(charset)));
+        }
+        if(null != this.shippingAddress2) {
+            this.shippingAddress2 = new String(Base64.encodeBase64(this.shippingAddress2.getBytes(charset)));
+        }
+        if(null != this.shippingAddress3) {
+            this.shippingAddress3 = new String(Base64.encodeBase64(this.shippingAddress3.getBytes(charset)));
+        }
+        if(null != this.shippingAddressCity) {
+            this.shippingAddressCity = new String(Base64.encodeBase64(this.shippingAddressCity.getBytes(charset)));
+        }
+        if(null != this.shippingAddressState) {
+            this.shippingAddressState = new String(Base64.encodeBase64(this.shippingAddressState.getBytes(charset)));
+        }
+        if(null != this.shippingAddressPostalCode) {
+            this.shippingAddressPostalCode = new String(Base64.encodeBase64(this.shippingAddressPostalCode.getBytes(charset)));
+        }
+        if(null != this.shippingAddressCountry) {
+            this.shippingAddressCountry = new String(Base64.encodeBase64(this.shippingAddressCountry.getBytes(charset)));
+        }
+        if(null != this.shippingAddressMatchIndicator) {
+            this.shippingAddressMatchIndicator = new String(Base64.encodeBase64(this.shippingAddressMatchIndicator.getBytes(charset)));
+        }
+        if(null != this.challengeRequestIndicator) {
+            this.challengeRequestIndicator = new String(Base64.encodeBase64(this.challengeRequestIndicator.getBytes(charset)));
+        }
+
 		return this;
 	}
 
@@ -1585,6 +2313,79 @@ public class HppRequest {
 		if (null != this.hppSelectStoredCard) {
 			this.hppSelectStoredCard = new String(Base64.decodeBase64(this.hppSelectStoredCard.getBytes(charset)));
 		}
+
+		// 3DS2 FIELDS
+        if(null != this.customerEmail) {
+            this.customerEmail = new String(Base64.decodeBase64(this.customerEmail.getBytes(charset)));
+        }
+
+        if(null != this.customerPhoneMobile) {
+            this.customerPhoneMobile = new String(Base64.decodeBase64(this.customerPhoneMobile.getBytes(charset)));
+        }
+
+        if(null != this.billingAddress1) {
+            this.billingAddress1 = new String(Base64.decodeBase64(this.billingAddress1.getBytes(charset)));
+        }
+
+        if(null != this.billingAddress2) {
+            this.billingAddress2 = new String(Base64.decodeBase64(this.billingAddress2.getBytes(charset)));
+        }
+
+        if(null != this.billingAddress3) {
+            this.billingAddress3 = new String(Base64.decodeBase64(this.billingAddress3.getBytes(charset)));
+        }
+
+        if(null != this.billingAddressCity) {
+            this.billingAddressCity = new String(Base64.decodeBase64(this.billingAddressCity.getBytes(charset)));
+        }
+
+        if(null != this.billingAddressState) {
+            this.billingAddressState = new String(Base64.decodeBase64(this.billingAddressState.getBytes(charset)));
+        }
+
+        if(null != this.billingAddressPostalCode) {
+            this.billingAddressPostalCode = new String(Base64.decodeBase64(this.billingAddressPostalCode.getBytes(charset)));
+        }
+
+        if(null != this.billingAddressCountry) {
+            this.billingAddressCountry = new String(Base64.decodeBase64(this.billingAddressCountry.getBytes(charset)));
+        }
+
+        if(null != this.shippingAddress1) {
+            this.shippingAddress1 = new String(Base64.decodeBase64(this.shippingAddress1.getBytes(charset)));
+        }
+
+        if(null != this.shippingAddress2) {
+            this.shippingAddress2 = new String(Base64.decodeBase64(this.shippingAddress2.getBytes(charset)));
+        }
+
+        if(null != this.shippingAddress3) {
+            this.shippingAddress3 = new String(Base64.decodeBase64(this.shippingAddress3.getBytes(charset)));
+        }
+
+        if(null != this.shippingAddressCity) {
+            this.shippingAddressCity = new String(Base64.decodeBase64(this.shippingAddressCity.getBytes(charset)));
+        }
+
+        if(null != this.shippingAddressState) {
+            this.shippingAddressState = new String(Base64.decodeBase64(this.shippingAddressState.getBytes(charset)));
+        }
+
+        if(null != this.shippingAddressPostalCode) {
+            this.shippingAddressPostalCode = new String(Base64.decodeBase64(this.shippingAddressPostalCode.getBytes(charset)));
+        }
+
+        if(null != this.shippingAddressCountry) {
+            this.shippingAddressCountry = new String(Base64.decodeBase64(this.shippingAddressCountry.getBytes(charset)));
+        }
+
+        if(null != this.shippingAddressMatchIndicator) {
+            this.shippingAddressMatchIndicator = new String(Base64.decodeBase64(this.shippingAddressMatchIndicator.getBytes(charset)));
+        }
+
+        if(null != this.challengeRequestIndicator) {
+            this.challengeRequestIndicator = new String(Base64.decodeBase64(this.challengeRequestIndicator.getBytes(charset)));
+        }
 
 		return this;
 	}
