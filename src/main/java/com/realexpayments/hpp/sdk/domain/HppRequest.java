@@ -336,7 +336,7 @@ public class HppRequest {
      *
      */
     @Size(max = 15, message = "{hppRequest.customerPhoneMobile.size}")
-    @Pattern(regexp = "[0-9]*", message = "{hppRequest.customerPhoneMobile.pattern}")
+    @Pattern(regexp = "^([0-9 +]){1,3}(\\|){0,1}([0-9 +]){1,15}$", message = "{hppRequest.customerPhoneMobile.pattern}")
     @JsonProperty("HPP_CUSTOMER_PHONENUMBER_MOBILE")
     private String customerPhoneMobile;
 
@@ -1890,7 +1890,7 @@ public class HppRequest {
      * @param shippingAddressCity
      * @return HppRequest
      */
-    public HppRequest addsShippingAddressCity (String shippingAddressCity) {
+    public HppRequest addShippingAddressCity (String shippingAddressCity) {
         this.shippingAddressCity = shippingAddressCity;
         return this;
     }

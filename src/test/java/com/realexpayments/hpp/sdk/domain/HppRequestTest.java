@@ -3,6 +3,7 @@ package com.realexpayments.hpp.sdk.domain;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.realexpayments.hpp.sdk.RealexHpp;
 import com.realexpayments.hpp.sdk.SampleJsonData;
 
 /**
@@ -147,5 +148,46 @@ public class HppRequestTest {
 
 		Assert.assertEquals("Card storage hash does not match expected.", expectedHash, actualHash);
 
+	}
+	
+	/**
+	 * Test new 3D Secure 2 fields
+	 * @return 
+	 */
+	@Test
+	public void newThreeDSecureTwoFields() {
+
+		HppRequest hppRequest = new HppRequest()
+				.addTimeStamp("20190531113558")
+				.addMerchantId("MerchantId")
+				.addAccount("internet")
+				.addOrderId("4lOCnXGhSiCMuq-P4PGqiQ")
+				.addAmount(1001)
+				.addCurrency("EUR")
+				.addAutoSettleFlag(true)
+				// 3D Secure 2 Mandatory and Recommended Fields
+				.addCustomerEmail("james.mason@example.com")
+				.addCustomerPhoneMobile("44|07123456789")
+				.addBillingAddress1("Flat 123")
+				.addBillingAddress2("House 456")
+				.addBillingAddress3("Unit 4")
+				.addBillingAddressCity("Halifax")
+				.addBillingAddressPostalCode("W5 9HR")
+				.addBillingAddressCountry("826")
+				.addShippingAddress1("Apartment 825")
+				.addShippingAddress2("Complex 741")
+				.addShippingAddress3("House 963")
+				.addShippingAddressCity("Chicago")
+				.addShippingAddressState("IL")
+				.addShippingAddressPostalCode("50001")
+				.addShippingAddressCountry("840");
+		
+		RealexHpp realexHpp = new RealexHpp("secret");
+		
+		String requestJson = realexHpp.requestToJson(hppRequest, false);
+		
+		String expectedJson = "{\"MERCHANT_ID\":\"MerchantId\",\"ACCOUNT\":\"internet\",\"ORDER_ID\":\"4lOCnXGhSiCMuq-P4PGqiQ\",\"AMOUNT\":\"1001\",\"CURRENCY\":\"EUR\",\"TIMESTAMP\":\"20190531113558\",\"SHA1HASH\":\"57f3ec83ad2634816bf00a5688c0b82b9d608ff2\",\"AUTO_SETTLE_FLAG\":\"1\",\"HPP_CUSTOMER_EMAIL\":\"james.mason@example.com\",\"HPP_CUSTOMER_PHONENUMBER_MOBILE\":\"44|07123456789\",\"HPP_BILLING_STREET1\":\"Flat 123\",\"HPP_BILLING_STREET2\":\"House 456\",\"HPP_BILLING_STREET3\":\"Unit 4\",\"HPP_BILLING_CITY\":\"Halifax\",\"HPP_BILLING_POSTALCODE\":\"W5 9HR\",\"HPP_BILLING_COUNTRY\":\"826\",\"HPP_SHIPPING_STREET1\":\"Apartment 825\",\"HPP_SHIPPING_STREET2\":\"Complex 741\",\"HPP_SHIPPING_STREET3\":\"House 963\",\"HPP_SHIPPING_CITY\":\"Chicago\",\"HPP_SHIPPING_STATE\":\"IL\",\"HPP_SHIPPING_POSTALCODE\":\"50001\",\"HPP_SHIPPING_COUNTRY\":\"840\"}";
+
+		Assert.assertEquals("Incorrect request JSON.", requestJson, expectedJson);
 	}
 }
