@@ -34,6 +34,7 @@ HppRequest hppRequest = new HppRequest()
 		.addAmount(1001)
 		.addCurrency("EUR")
 		.addAutoSettleFlag(true)
+		.addHppVersion("2")
 		// 3D Secure 2 Mandatory and Recommended Fields
 		.addCustomerEmail("james.mason@example.com")
 		.addCustomerPhoneMobile("44|07123456789")
