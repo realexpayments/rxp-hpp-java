@@ -33,7 +33,7 @@
 		<junit.version>4.12</junit.version>
 		<slf4j.version>1.7.12</slf4j.version>
 		<jackson.version>2.10.1</jackson.version>
-		<jackson-annotations.version>2.5.4</jackson-annotations.version>
+		<jackson-annotations.version>2.10.1</jackson-annotations.version>
 		<hibernate-validator.version>5.1.3.Final</hibernate-validator.version>
 		<javax.el.version>2.2.5</javax.el.version>
 		<logback-classic.version>1.1.3</logback-classic.version>
